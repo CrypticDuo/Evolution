@@ -1,0 +1,4 @@
+function Food(){
+}
+
+Food.prototype = {}

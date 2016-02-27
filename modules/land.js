@@ -1,8 +1,8 @@
 $(function()
 {
-  var POPULATION = 20;
-  var MIN_MASS = .5;
-  var MAX_MASS = 3.5;
+  var POPULATION = 10;
+  var MIN_MASS = 0.01;
+  var MAX_MASS = 1;
   var FOOD_RATIO = .2;
   var SCREEN = 1;
 
@@ -37,7 +37,7 @@ $(function()
     var randomY = Math.random() * land.height;
 
     // TODO: create 4 types of organisms.
-    var randomMass = MIN_MASS + (Math.random()*Math.random()*Math.random()*Math.random()) * MAX_MASS;
+    var randomMass = MIN_MASS + (Math.random()*Math.random()) * MAX_MASS;
 
     // create Organism(generation, mass, x, y, vision_range, max_speed, fertility)
     var organism = new Organism(1, randomMass, randomX, randomY, 1, 1, 1);

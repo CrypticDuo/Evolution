@@ -3,8 +3,8 @@ function Organism(generation, mass, x, y, vision_range, max_speed, fertility){
   this.generation = generation;
   this.mass = mass;
   this.max_speed = max_speed;
-  this.max_force = 1 / this.mass; // amount of force it can exert
-  this.min_speed = 5;
+  this.max_force = 1 / (this.mass); // amount of force it can exert [2, ]
+  this.min_speed = 3;
   this.vision_range = vision_range;
   this.fertility = fertility;
   this.energy = 0.5 * this.mass * this.max_speed * this.max_speed;
@@ -17,7 +17,7 @@ function Organism(generation, mass, x, y, vision_range, max_speed, fertility){
   // v = v + a ; limited to [0, max_speed]
   this.location = new Vector(x, y);
   this.velocity = new Vector(1, 1);
-  this.wandering = new Vector(1,1); // wandering velocity
+  this.wandering = new Vector(1, 1); // wandering velocity
   this.acceleration = new Vector(0, 0);
 
   // TODO : Move to Constant class
@@ -57,23 +57,23 @@ Organism.prototype = {
       this.wandering.rotate(Math.PI * 2 * Math.random());
     }
 
-    this.velocity.add(this.wandering);
+    this.apply_force(this.wandering);
   },
 
   // apply force opposite to the boundary
 
   check_boundaries: function(land)
   {
-    if (this.location.x < 50)
+    if (this.location.x < -10)
       this.apply_force(new Vector(this.max_force, 0));
 
-    if (this.location.x > land.width - 50)
+    if (this.location.x > land.width + 10)
       this.apply_force(new Vector(-this.max_force, 0));
 
-    if (this.location.y < 50)
+    if (this.location.y < -10)
       this.apply_force(new Vector(0, this.max_force));
 
-    if (this.location.y > land.height - 50)
+    if (this.location.y > land.height + 10)
       this.apply_force(new Vector(0, -this.max_force));
   },
 

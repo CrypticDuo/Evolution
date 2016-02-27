@@ -3,6 +3,7 @@ function Organism(generation, mass, x, y, vision_range, max_speed, fertility){
   this.generation = generation;
   this.mass = mass;
   this.max_speed = max_speed;
+  this.max_force = 1 / this.mass; // amount of force it can exert
   this.min_speed = 5;
   this.vision_range = vision_range;
   this.fertility = fertility;
@@ -16,7 +17,7 @@ function Organism(generation, mass, x, y, vision_range, max_speed, fertility){
   // v = v + a ; limited to [0, max_speed]
   this.location = new Vector(x, y);
   this.velocity = new Vector(1, 1);
-  this.wandering = new Vector(1,1);
+  this.wandering = new Vector(1,1); // wandering velocity
   this.acceleration = new Vector(0, 0);
 
   // TODO : Move to Constant class
@@ -33,9 +34,11 @@ function Organism(generation, mass, x, y, vision_range, max_speed, fertility){
 
 Organism.prototype = {
 
-  move: function()
+  move: function(land)
   {
     this.wander();
+
+    this.check_boundaries(land);
   },
 
   eat: function()
@@ -53,15 +56,38 @@ Organism.prototype = {
     if (Math.random() < .05) {
       this.wandering.rotate(Math.PI * 2 * Math.random());
     }
+
     this.velocity.add(this.wandering);
+  },
+
+  // apply force opposite to the boundary
+
+  check_boundaries: function(land)
+  {
+    if (this.location.x < 50)
+      this.apply_force(new Vector(this.max_force, 0));
+
+    if (this.location.x > land.width - 50)
+      this.apply_force(new Vector(-this.max_force, 0));
+
+    if (this.location.y < 50)
+      this.apply_force(new Vector(0, this.max_force));
+
+    if (this.location.y > land.height - 50)
+      this.apply_force(new Vector(0, -this.max_force));
+  },
+
+  apply_force: function(force)
+  {
+    this.acceleration.add(force);
   },
 
   draw: function(ctx)
   {
     var angle = this.velocity.angle();
 
-    x1 = this.location.x + Math.cos(angle) * this.mass * 10;
-    y1 = this.location.y + Math.sin(angle) * this.mass * 10;
+    x1 = this.location.x + Math.cos(angle) * this.mass * 5;
+    y1 = this.location.y + Math.sin(angle) * this.mass * 5;
 
     x = this.location.x - Math.cos(angle) * this.mass * 20;
     y = this.location.y - Math.sin(angle) * this.mass * 20;
@@ -87,14 +113,18 @@ Organism.prototype = {
   {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.max_speed);
-    if(this.velocity.mag() < 3) // TODO
+    if(this.velocity.mag() < this.min_speed) // TODO
       this.velocity.setMag(this.min_speed);
 
     this.location.add(this.velocity);
 
-    // change acceleration based on force
+    this.acceleration.limit(this.maxforce);
+
     // decrease organism energy
-    // increase age
+    //this.age = this.age + 0.01;
+    //console.log(this.age);
+
     // reset acceleration, forces, etc
+    this.acceleration.mul(0);
   }
 }

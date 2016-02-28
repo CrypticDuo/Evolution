@@ -17,7 +17,7 @@ function Organism(generation, mass, x, y, vision_range, max_speed, fertility){
   // v = v + a ; limited to [0, max_speed]
   this.location = new Vector(x, y);
   this.velocity = new Vector(1, 1);
-  this.wandering = new Vector(1, 1); // wandering velocity
+  this.wandering = new Vector(.1, .1); // wandering velocity
   this.acceleration = new Vector(0, 0);
 
   // TODO : Move to Constant class
@@ -36,9 +36,31 @@ Organism.prototype = {
 
   move: function(land)
   {
+    this.friends = this.find_friends(land.population, this.vision_range)
     this.wander();
 
     this.check_boundaries(land);
+  },
+
+  find_friends: function(population, range)
+  {
+    var friends = [];
+    for (var i in population) {
+      if (population[i] != this) {
+        var diff = this.location.copy().sub(population[i].location);
+        var a = this.velocity.angleBetween(diff);
+        var d = this.location.dist(population[i].location);
+        // TODO: calculate mass to see if friend || enemy
+
+        a = (180 * a) / Math.PI;
+        var visible = (a > 90 && a < 270) || (a < -90 && a > -270);
+
+        if (d < this.vision_range && visible) {
+          friends.push(population[i]);
+        }
+      }
+    }
+    return friends;
   },
 
   eat: function()
@@ -107,6 +129,24 @@ Organism.prototype = {
     ctx.quadraticCurveTo(x3,y3,x1,y1);
     ctx.stroke();
     ctx.fill();
+
+    this.draw_relationship(ctx);
+  },
+
+  draw_relationship: function(ctx)
+  {
+    if (this.friends) {
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "grey";
+      ctx.beginPath();
+      for(var i in this.friends)
+      {
+        ctx.stokeStyle = "#f1f1f1";
+        ctx.moveTo(this.location.x, this.location.y);
+        ctx.lineTo(this.friends[i].location.x, this.friends[i].location.y);
+      }
+      ctx.stroke();
+    }
   },
 
   update: function()

@@ -1,11 +1,11 @@
-function Organism(generation, mass, x, y, vision, max_speed, fertility){
+function Organism(generation, mass, x, y, vision_range, vision_angle, max_speed, fertility){
   this.ID = Organism.uid();
   this.generation = generation;
   this.mass = mass;
   this.max_speed = max_speed;
   this.max_force = 1 / (this.mass); // amount of force it can exert [2, ]
   this.min_speed = 3;
-  this.vision = vision;
+  this.vision = new Vision(this, vision_range, vision_angle);
   this.fertility = fertility;
   this.energy = 0.5 * this.mass * this.max_speed * this.max_speed;
   this.age = 1;
@@ -52,10 +52,7 @@ Organism.prototype = {
         var d = this.location.dist(population[i].location);
         // TODO: calculate mass to see if friend || enemy
 
-        a = (180 * a) / Math.PI;
-        var visible = (a > 90 && a < 270) || (a < -90 && a > -270);
-
-        if (d < this.vision.range && visible) {
+        if (this.vision.isWithinVision(population[i])) {
           friends.push(population[i]);
         }
       }
@@ -106,7 +103,7 @@ Organism.prototype = {
 
   draw: function(ctx)
   {
-    var angle = this.velocity.angle();
+    var angle = this.getAngleOfDirection();
 
     x1 = this.location.x + Math.cos(angle) * this.mass * 5;
     y1 = this.location.y + Math.sin(angle) * this.mass * 5;
@@ -130,8 +127,13 @@ Organism.prototype = {
     ctx.stroke();
     ctx.fill();
 
-    this.draw_relationship(ctx);
     this.draw_vision(ctx);
+    this.draw_relationship(ctx);
+  },
+
+  draw_vision: function(ctx)
+  {
+    this.vision.draw(ctx);
   },
 
   draw_relationship: function(ctx)
@@ -148,47 +150,6 @@ Organism.prototype = {
       }
       ctx.stroke();
     }
-  },
-
-  draw_vision: function(ctx)
-  {
-    var x = this.location.x;
-    var y = this.location.y;
-    var radius = this.vision.range;
-
-    var side_angles = (180 - this.vision.angle) / 2;
-    var facing_angle_rad = this.velocity.angle() / Math.PI;
-
-    // perpendicular to horizontal line
-    var start_bound = 1.5; // rad
-    var end_bound = .5; // rad
-
-    var start_angle = ((start_bound + facing_angle_rad) + side_angles / 180)
-    var end_angle = ((end_bound + facing_angle_rad) - side_angles / 180);
-
-    start_x = x + radius * Math.cos(start_angle * Math.PI);
-    start_y = y + radius * Math.sin(start_angle * Math.PI);
-    end_x = x + radius * Math.cos(end_angle * Math.PI);
-    end_y = y + radius * Math.sin(end_angle * Math.PI);
-
-    ctx.strokeStyle = '#ddd';
-
-    // draw arc
-    ctx.beginPath();
-    ctx.arc(x, y, radius, (start_angle * Math.PI), (end_angle * Math.PI));
-    ctx.stroke();
-
-    // draw start of arc line
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(start_x, start_y);
-    ctx.stroke();
-
-    // draw end of arc line
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(end_x, end_y);
-    ctx.stroke();
   },
 
   update: function()
@@ -208,5 +169,10 @@ Organism.prototype = {
 
     // reset acceleration, forces, etc
     this.acceleration.mul(0);
+  },
+
+  getAngleOfDirection: function()
+  {
+    return this.velocity.angle();
   }
 }

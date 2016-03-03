@@ -39,8 +39,8 @@ $(function()
     // TODO: create 4 types of organisms.
     var randomMass = MIN_MASS + (Math.random()*Math.random()) * MAX_MASS;
 
-    // create Organism(generation, mass, x, y, vision_range, max_speed, fertility)
-    var organism = new Organism(1, randomMass, randomX, randomY, {range: 100, angle: 100}, 1, 1);
+    // create Organism(generation, mass, x, y, vision_angle, vision_range, max_speed, fertility)
+    var organism = new Organism(1, randomMass, randomX, randomY, 100, 100, 1, 1);
 
     land.population.push(organism);
   }

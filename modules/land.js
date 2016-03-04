@@ -3,7 +3,8 @@ $(function()
   var POPULATION = 20;
   var MIN_MASS = 0.01;
   var MAX_MASS = 1;
-  var FOOD_RATIO = .2;
+  var MAX_SPEED = 10;
+  // FOOD_RATIO = .2;
   var SCREEN = 1;
 
   var canvas = $("#canvas")[0];
@@ -38,9 +39,10 @@ $(function()
 
     // TODO: create 4 types of organisms.
     var randomMass = MIN_MASS + (Math.random()*Math.random()) * MAX_MASS;
-
-    // create Organism(generation, mass, x, y, vision_angle, vision_range, max_speed, fertility)
-    var organism = new Organism(1, randomMass, randomX, randomY, 100, 100, 1, 1);
+    var randomMinSpeed =  (Math.random()*Math.random()*Math.random()*Math.random()) * MAX_SPEED;
+    var randomMaxSpeed = randomMinSpeed + (Math.random()*Math.random()) * MAX_SPEED;
+    // create Organism(generation, mass, x, y, vision_angle, vision_range, minSpeed, maxSpeed, fertility)
+    var organism = new Organism(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, randomMaxSpeed, 1);
 
     land.population.push(organism);
   }

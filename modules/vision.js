@@ -42,7 +42,7 @@ Vision.prototype = {
     var arc_ending_point_x = x + radius * Math.cos(arc_ending_angle);
     var arc_ending_point_y = y + radius * Math.sin(arc_ending_angle);
 
-    ctx.strokeStyle = '#ddd';
+    ctx.strokeStyle = '#f3f3f3';
 
     // draw arc
     ctx.beginPath();
@@ -78,7 +78,7 @@ Vision.prototype = {
     // Within range
     if(this.range >= distanceBetweenOrganisms) {
       // Within angle
-      if(angleRelativeToThis > startingAngle 
+      if(angleRelativeToThis > startingAngle
         && angleRelativeToThis < endingAngle) {
         return true;
       }

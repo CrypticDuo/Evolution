@@ -1,20 +1,20 @@
-function Organism(generation, mass, x, y, vision_range, vision_angle, max_speed, fertility){
+function Organism(generation, mass, x, y, vision_range, vision_angle, minSpeed, maxSpeed, fertility){
   this.ID = Organism.uid();
   this.generation = generation;
   this.mass = mass;
-  this.max_speed = max_speed;
-  this.max_force = 1 / (this.mass); // amount of force it can exert [2, ]
-  this.min_speed = 3;
+  this.maxSpeed = maxSpeed;
+  this.minSpeed = minSpeed;
+  this.maxForce = 1 / (this.mass); // amount of force it can exert [2, ]
   this.vision = new Vision(this, vision_range, vision_angle);
   this.fertility = fertility;
-  this.energy = 0.5 * this.mass * this.max_speed * this.max_speed;
+  this.energy = 0.5 * this.mass * this.maxSpeed * this.maxSpeed;
   this.age = 1;
   this.mature = false;
 
   // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
   // we calculate acceleration using force
   // a = F/m
-  // v = v + a ; limited to [0, max_speed]
+  // v = v + a ; limited to [0, maxSpeed]
   this.location = new Vector(x, y);
   this.velocity = new Vector(1, 1);
   this.wandering = new Vector(.1, .1); // wandering velocity
@@ -72,7 +72,7 @@ Organism.prototype = {
 
   wander: function()
   {
-    if (Math.random() < .05) {
+    if (Math.random() < .02) {
       this.wandering.rotate(Math.PI * 2 * Math.random());
     }
 
@@ -84,16 +84,16 @@ Organism.prototype = {
   check_boundaries: function(land)
   {
     if (this.location.x < -10)
-      this.apply_force(new Vector(this.max_force, 0));
+      this.apply_force(new Vector(this.maxForce, 0));
 
     if (this.location.x > land.width + 10)
-      this.apply_force(new Vector(-this.max_force, 0));
+      this.apply_force(new Vector(-this.maxForce, 0));
 
     if (this.location.y < -10)
-      this.apply_force(new Vector(0, this.max_force));
+      this.apply_force(new Vector(0, this.maxForce));
 
     if (this.location.y > land.height + 10)
-      this.apply_force(new Vector(0, -this.max_force));
+      this.apply_force(new Vector(0, -this.maxForce));
   },
 
   apply_force: function(force)
@@ -155,9 +155,9 @@ Organism.prototype = {
   update: function()
   {
     this.velocity.add(this.acceleration);
-    this.velocity.limit(this.max_speed);
-    if(this.velocity.mag() < this.min_speed) // TODO
-      this.velocity.setMag(this.min_speed);
+    this.velocity.limit(this.maxSpeed);
+    if(this.velocity.mag() < this.minSpeed) // TODO
+      this.velocity.setMag(this.minSpeed);
 
     this.location.add(this.velocity);
 

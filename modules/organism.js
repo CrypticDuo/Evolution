@@ -117,13 +117,11 @@ Organism.prototype = {
     x3 = this.location.x + Math.cos(angle - this.HALF_PI) * this.mass * 10;
     y3 = this.location.y + Math.sin(angle - this.HALF_PI) * this.mass * 10;
 
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
     ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.quadraticCurveTo(x2,y2,x,y);
-    ctx.quadraticCurveTo(x3,y3,x1,y1);
+    ctx.arc(this.location.x, this.location.y, this.mass * 10, 0, 2 * Math.PI, false);
     ctx.stroke();
     ctx.fill();
 

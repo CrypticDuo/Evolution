@@ -1,11 +1,11 @@
-function Organism(generation, mass, x, y, vision_range, vision_angle, minSpeed, maxSpeed, fertility){
+function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, maxSpeed, fertility){
   this.ID = Organism.uid();
   this.generation = generation;
   this.mass = mass;
   this.maxSpeed = maxSpeed;
   this.minSpeed = minSpeed;
   this.maxForce = 1 / (this.mass); // amount of force it can exert [2, ]
-  this.vision = new Vision(this, vision_range, vision_angle);
+  this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
   this.energy = 0.5 * this.mass * this.maxSpeed * this.maxSpeed;
   this.age = 1;
@@ -36,13 +36,13 @@ Organism.prototype = {
 
   move: function(land)
   {
-    this.friends = this.find_friends(land.population, this.vision.range)
+    this.friends = this.findFriends(land.population, this.vision.range)
     this.wander();
 
-    this.check_boundaries(land);
+    this.checkBoundaries(land);
   },
 
-  find_friends: function(population, range)
+  findFriends: function(population, range)
   {
     var friends = [];
     for (var i in population) {
@@ -76,27 +76,27 @@ Organism.prototype = {
       this.wandering.rotate(Math.PI * 2 * Math.random());
     }
 
-    this.apply_force(this.wandering);
+    this.applyForce(this.wandering);
   },
 
   // apply force opposite to the boundary
 
-  check_boundaries: function(land)
+  checkBoundaries: function(land)
   {
     if (this.location.x < -10)
-      this.apply_force(new Vector(this.maxForce, 0));
+      this.applyForce(new Vector(this.maxForce, 0));
 
     if (this.location.x > land.width + 10)
-      this.apply_force(new Vector(-this.maxForce, 0));
+      this.applyForce(new Vector(-this.maxForce, 0));
 
     if (this.location.y < -10)
-      this.apply_force(new Vector(0, this.maxForce));
+      this.applyForce(new Vector(0, this.maxForce));
 
     if (this.location.y > land.height + 10)
-      this.apply_force(new Vector(0, -this.maxForce));
+      this.applyForce(new Vector(0, -this.maxForce));
   },
 
-  apply_force: function(force)
+  applyForce: function(force)
   {
     this.acceleration.add(force);
   },
@@ -125,16 +125,16 @@ Organism.prototype = {
     ctx.stroke();
     ctx.fill();
 
-    this.draw_vision(ctx);
-    this.draw_relationship(ctx);
+    this.drawVision(ctx);
+    this.drawRelationship(ctx);
   },
 
-  draw_vision: function(ctx)
+  drawVision: function(ctx)
   {
     this.vision.draw(ctx);
   },
 
-  draw_relationship: function(ctx)
+  drawRelationship: function(ctx)
   {
     if (this.friends) {
       ctx.lineWidth = 1;
@@ -159,7 +159,7 @@ Organism.prototype = {
 
     this.location.add(this.velocity);
 
-    this.acceleration.limit(this.maxforce);
+    this.acceleration.limit(this.maxForce);
 
     // decrease organism energy
     //this.age = this.age + 0.01;

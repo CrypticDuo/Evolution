@@ -10,6 +10,7 @@ function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, ma
   this.energy = 0.5 * this.mass * this.maxSpeed * this.maxSpeed;
   this.age = 1;
   this.mature = false;
+  this.blind = false;
 
   // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
   // we calculate acceleration using force
@@ -125,8 +126,10 @@ Organism.prototype = {
     ctx.stroke();
     ctx.fill();
 
-    this.drawVision(ctx);
-    this.drawRelationship(ctx);
+    if(this.blind == false) {
+      this.drawVision(ctx);
+      this.drawRelationship(ctx);
+    }
   },
 
   drawVision: function(ctx)

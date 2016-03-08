@@ -1,3 +1,4 @@
+
 /*
 
 | s /) <-- assume arc
@@ -83,7 +84,6 @@ Vision.prototype = {
         return true;
       }
     }
-
     return false;
   }
 }

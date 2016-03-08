@@ -32,6 +32,25 @@ $(function()
     e.setAttribute("height", land.height);
   }).resize();
 
+  var visionDisplay = true;
+
+  // Vision & Vector toggle
+  $(window).click(function()
+  {
+    for (var i in land.population)
+    {
+      var organism = land.population[i];
+      if(organism.blind == true)
+      {
+        organism.blind = false;
+      } 
+      else 
+      {
+        organism.blind = true;
+      }
+    }
+  }).click();
+
   for (var i = 0; i < POPULATION; i++)
   {
     var randomX = Math.random() * land.width;

@@ -6,9 +6,14 @@ $(function()
 
   var land = new Land();
 
-  for (var i = 0; i < constant.POPULATION; i++)
+  for (var i = 0; i < Constant.POPULATION; i++)
   {
     land.population.push(createOrganism(land));
+  }
+
+  for (var i = 0; i < Constant.FOOD_RATIO * Constant.POPULATION; i++)
+  {
+    land.food.push(createFood(land));
   }
 
   $(window).resize(function()
@@ -33,6 +38,24 @@ function step(ctx, land)
     organism.update(land);
     organism.draw(ctx);
   }
+
+  for (var i in land.food)
+  {
+    var food = land.food[i];
+
+    if (!food.dead)
+    {
+      food.update(land);
+      food.draw(ctx);
+    }
+    else
+    {
+      if(Math.random() <= .005)
+      {
+        land.food[i] = createFood(land);
+      }
+    }
+  }
 }
 
 function createOrganism(land)
@@ -41,10 +64,36 @@ function createOrganism(land)
     var randomY = Math.random() * land.height;
 
     // TODO: create 4 types of organisms.
-    var randomMass = constant.MIN_MASS + (Math.random()*Math.random()) * constant.MAX_MASS;
-    var randomMinSpeed =  (Math.random()*Math.random()*Math.random()*Math.random()) * constant.MAX_SPEED;
-    var randomMaxSpeed = randomMinSpeed + (Math.random()*Math.random()) * constant.MAX_SPEED;
+    var randomMass = Constant.MIN_MASS + (Math.random()*Math.random()) * Constant.MAX_MASS;
+    var randomMinSpeed =  (Math.random()*Math.random()*Math.random()*Math.random()) * Constant.MAX_SPEED;
+    var randomMaxSpeed = randomMinSpeed + (Math.random()*Math.random()) * Constant.MAX_SPEED;
     
     // create Organism(generation, mass, x, y, vision_angle, vision_range, minSpeed, maxSpeed, fertility)
     return new Organism(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, randomMaxSpeed, 1);
+}
+
+function createFood(land)
+{
+  var randomX = Math.random() * land.width;
+  var randomY = Math.random() * land.height;
+
+  // each food source is enough to feed maximum 20% of total organisms and minimum of 5%.
+  var randomEnergy = Math.random() * (0.20 - 0.05) + 0.05;
+
+  randomEnergy = Constant.POPULATION * randomEnergy * getAverageMass(land) * Constant.ENERGY;
+
+  return new Food(randomX, randomY, randomEnergy);
+}
+
+function getAverageMass(land)
+{
+  var totalMass = 0;
+  for (var i in land.population)
+  {
+    var organism = land.population[i];
+
+    totalMass += organism.mass;
+  }
+
+  return totalMass / Constant.POPULATION;
 }

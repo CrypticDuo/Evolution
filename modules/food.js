@@ -39,7 +39,7 @@ Food.prototype = {
 		var newRadius = this.energy > 0 ? this.energy * this.RADIUS_RATIO : 0;
 
 		// decrease radius gradually
-		this.radius += (this.radius - newRadius) / 5;
+		this.radius += (newRadius - this.radius) / 5;
 
 		this.location.add(this.velocity);
 

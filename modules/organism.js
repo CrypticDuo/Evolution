@@ -1,15 +1,16 @@
-function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, maxSpeed, fertility){
+function Organism(generation, mass, energy, x, y, visionRange, visionAngle, minSpeed, maxSpeed, fertility){
   this.ID = Organism.uid();
   this.generation = generation;
   this.mass = mass;
+  this.energy = energy;
   this.maxSpeed = maxSpeed;
   this.minSpeed = minSpeed;
   this.maxForce = 1 / (this.mass); // amount of force it can exert [2, ]
   this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
-  this.energy = 0.5 * this.mass * this.maxSpeed * this.maxSpeed;
-  this.age = 1;
+  this.age = 0;
   this.mature = false;
+  this.alive = true;
 
   // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
   // we calculate acceleration using force
@@ -161,9 +162,12 @@ Organism.prototype = {
 
     this.acceleration.limit(this.maxForce);
 
-    // decrease organism energy
-    //this.age = this.age + 0.01;
-    //console.log(this.age);
+    this.energy -= (this.mass * this.age * this.velocity.mag());
+    this.age += 0.005;
+
+    if (this.energy < 0) {
+      this.alive = false;
+    }
 
     // reset acceleration, forces, etc
     this.acceleration.mul(0);

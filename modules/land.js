@@ -1,6 +1,7 @@
 $(function()
 {
   var POPULATION = 20;
+  var ENERGY = 100000;
   var MIN_MASS = 0.01;
   var MAX_MASS = 1;
   var MAX_SPEED = 10;
@@ -41,8 +42,9 @@ $(function()
     var randomMass = MIN_MASS + (Math.random()*Math.random()) * MAX_MASS;
     var randomMinSpeed =  (Math.random()*Math.random()*Math.random()*Math.random()) * MAX_SPEED;
     var randomMaxSpeed = randomMinSpeed + (Math.random()*Math.random()) * MAX_SPEED;
-    // create Organism(generation, mass, x, y, vision_angle, vision_range, minSpeed, maxSpeed, fertility)
-    var organism = new Organism(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, randomMaxSpeed, 1);
+    var energy = randomMass * ENERGY;
+    // create Organism(generation, mass, energy, x, y, vision_angle, vision_range, minSpeed, maxSpeed, fertility)
+    var organism = new Organism(1, randomMass, energy, randomX, randomY, 100, 100, randomMinSpeed, randomMaxSpeed, 1);
 
     land.population.push(organism);
   }
@@ -54,7 +56,12 @@ $(function()
     ctx.fillRect(0,0,canvas.width, canvas.height);
     ctx.globalAlpha = 1;
 
-    var deadList = [];
+    // removing dead organisms
+    for (var i = land.population.length-1; i >= 0; i--) {
+      if (!land.population[i].alive) {
+        land.population.splice(i, 1);
+      }
+    }
 
     for (var i in land.population)
     {

@@ -43,7 +43,7 @@ function step(ctx, land)
   {
     var food = land.food[i];
 
-    if (!food.dead)
+    if (!food.depleted)
     {
       food.update(land);
       food.draw(ctx);

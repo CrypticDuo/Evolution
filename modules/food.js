@@ -1,10 +1,10 @@
 
 function Food(x, y, energy)
 {
-	this.location = new Vector(x, y);
+  this.location = new Vector(x, y);
   this.velocity = new Vector(.5, .5);
   this.energy = energy;
-  this.dead = false;
+  this.depleted = false;
 
   // Make the food circle look bigger
   // Too small to have 1:1 size relationship with organism, 1:10 is reasonable
@@ -19,22 +19,22 @@ function Food(x, y, energy)
 Food.prototype = {
 	draw: function(ctx)
 	{
-		ctx.beginPath();
-		ctx.globalAlpha = 0.5;
+    ctx.beginPath();
+    ctx.globalAlpha = 0.5;
     ctx.fillStyle = "#eee";
     ctx.strokeStyle = "#ddd";
-		ctx.arc(this.location.x, this.location.y, this.radius, 0, 2 * Math.PI);
-		ctx.fill();
-		ctx.stroke();
+    ctx.arc(this.location.x, this.location.y, this.radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.stroke();
 
-		ctx.font = "15px sans-serif";
+    ctx.font = "15px sans-serif";
     ctx.fillStyle = "black";
-		ctx.fillText("FOOD", this.location.x - 23, this.location.y + 5);
+    ctx.fillText("FOOD", this.location.x - 23, this.location.y + 5);
 	},
 
 	update: function(land)
 	{
-		this.dead = this.energy <= 0;
+		this.depleted = this.energy <= 0;
 
 		var newRadius = this.energy > 0 ? this.energy * this.RADIUS_RATIO : 0;
 

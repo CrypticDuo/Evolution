@@ -50,7 +50,7 @@ function step(ctx, land)
     }
     else
     {
-      if(Math.random() <= .005)
+      if(Math.random() <= Constant.FOOD_RESPAWN_CHANCE)
       {
         land.food[i] = createFood(land);
       }
@@ -78,7 +78,7 @@ function createFood(land)
   var randomY = Math.random() * land.height;
 
   // each food source is enough to feed maximum 20% of total organisms and minimum of 5%.
-  var randomEnergy = Math.random() * (0.20 - 0.05) + 0.05;
+  var randomEnergy = Math.random() * (Constant.MAX_FOOD_ENERGY_RATIO - Constant.MIN_FOOD_ENERGY_RATIO) + Constant.MIN_FOOD_ENERGY_RATIO;
 
   randomEnergy = Constant.POPULATION * randomEnergy * getAverageMass(land) * Constant.ENERGY;
 

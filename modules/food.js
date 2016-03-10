@@ -17,8 +17,8 @@ function Food(x, y, energy)
 }
 
 Food.prototype = {
-	draw: function(ctx)
-	{
+  draw: function(ctx)
+  {
     ctx.beginPath();
     ctx.globalAlpha = 0.5;
     ctx.fillStyle = "#eee";
@@ -30,24 +30,24 @@ Food.prototype = {
     ctx.font = "15px sans-serif";
     ctx.fillStyle = "black";
     ctx.fillText("FOOD", this.location.x - 23, this.location.y + 5);
-	},
+  },
 
-	update: function(land)
-	{
-		this.depleted = this.energy <= 0;
+  update: function(land)
+  {
+    this.depleted = this.energy <= 0;
 
-		var newRadius = this.energy > 0 ? this.energy * this.RADIUS_RATIO : 0;
+    var newRadius = this.energy > 0 ? this.energy * this.RADIUS_RATIO : 0;
 
-		// decrease radius gradually
-		this.radius += (newRadius - this.radius) / 5;
+    // decrease radius gradually
+    this.radius += (newRadius - this.radius) / 5;
 
-		this.location.add(this.velocity);
+    this.location.add(this.velocity);
 
-		// kill the food if out of bounds
+    // kill the food if out of bounds
     if (this.location.x < -10 || this.location.x > land.width + 10 ||
-			this.location.y < -10 || this.location.y > land.height + 10)
+      this.location.y < -10 || this.location.y > land.height + 10)
     {
-			this.energy = 0;
+      this.energy = 0;
     }
-	}
+  }
 }

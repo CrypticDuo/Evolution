@@ -23,6 +23,19 @@ $(function()
     e.setAttribute("height", land.height);
   }).resize();
 
+  // Vision & Vector toggle
+  $(window).click(function()
+  {
+    if(Debug.VISIONHIDE == false)
+    {
+      Debug.VISIONHIDE = true;
+    } 
+    else 
+    {
+      Debug.VISIONHIDE = false;
+    }
+  }).click();
+
   setInterval(function(){ step (ctx, land); }, interval);
 });
 

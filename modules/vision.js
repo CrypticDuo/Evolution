@@ -27,7 +27,8 @@ function Vision(organism, range, maxAngle){
 }
 
 Vision.prototype = {
-  draw: function(ctx){
+  draw: function(ctx)
+  {
     var x = this.organism.location.x;
     var y = this.organism.location.y;
     var radius = this.organism.vision.range;

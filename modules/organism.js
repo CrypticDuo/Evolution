@@ -115,7 +115,7 @@ Organism.prototype = {
     ctx.stroke();
     ctx.fill();
 
-    if(this.blind == false) {
+    if(Debug.VISIONHIDE == false) {
       this.drawVision(ctx);
       this.drawRelationship(ctx);
     }

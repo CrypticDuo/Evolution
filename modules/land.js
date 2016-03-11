@@ -42,9 +42,9 @@ $(function()
     var randomMass = MIN_MASS + (Math.random()*Math.random()) * MAX_MASS;
     var randomMinSpeed =  (Math.random()*Math.random()*Math.random()*Math.random()) * MAX_SPEED;
     var randomMaxSpeed = randomMinSpeed + (Math.random()*Math.random()) * MAX_SPEED;
-    var energy = randomMass * ENERGY;
+    var randomEnergy = randomMass * ENERGY;
     // create Organism(generation, mass, energy, x, y, vision_angle, vision_range, minSpeed, maxSpeed, fertility)
-    var organism = new Organism(1, randomMass, energy, randomX, randomY, 100, 100, randomMinSpeed, randomMaxSpeed, 1);
+    var organism = new Organism(1, randomMass, randomEnergy, randomX, randomY, 100, 100, randomMinSpeed, randomMaxSpeed, 1);
 
     land.population.push(organism);
   }

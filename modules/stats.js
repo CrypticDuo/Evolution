@@ -18,7 +18,7 @@ var Stats = {
 	    totalGeneration += organism.generation;
 	  }
 
-	  return this.roundToDecimal(totalGeneration / Constant.POPULATION, 0);
+	  return this.roundToDecimal(totalGeneration / land.population.length, 0);
 	},
 
 	getAverageSpeed: function(land)
@@ -31,7 +31,7 @@ var Stats = {
 	    totalSpeed += organism.velocity.mag();
 	  }
 
-	  return this.roundToDecimal(totalSpeed / Constant.POPULATION, 3);
+	  return this.roundToDecimal(totalSpeed / land.population.length, 3);
 	},
 
 	getAverageMass: function(land)
@@ -44,7 +44,7 @@ var Stats = {
 	    totalMass += organism.mass;
 	  }
 
-	  return this.roundToDecimal(totalMass / Constant.POPULATION, 3);
+	  return this.roundToDecimal(totalMass / land.population.length, 3);
 	},
 
 	getAverageVisionRange: function(land)
@@ -57,9 +57,8 @@ var Stats = {
 	    totalRange += organism.vision.range;
 	  }
 
-	  return this.roundToDecimal(totalRange / Constant.POPULATION, 2);
+	  return this.roundToDecimal(totalRange / land.population.length, 2);
 	},
-
 
 	getAverageVisionAngle: function(land)
 	{
@@ -71,7 +70,7 @@ var Stats = {
 	    totalAngle += organism.vision.angle;
 	  }
 
-	  return this.roundToDecimal(totalAngle / Constant.POPULATION, 2);
+	  return this.roundToDecimal(totalAngle / land.population.length, 2);
 	},
 
 	roundToDecimal: function(num, dec)

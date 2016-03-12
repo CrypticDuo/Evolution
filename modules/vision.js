@@ -10,17 +10,17 @@
 ^
 ^---- perpendicular line relative to organism direction
 
-a = maxAngle
+a = angle
 s = sideAngle
 */
 
-function Vision(organism, range, maxAngle){
+function Vision(organism, range, angle){
   this.organism = organism;
   this.range = range;
-  this.maxAngle = maxAngle;
+  this.angle = angle;
 
   // default
-  this.sideAngle = ((180 - maxAngle) / 2) / 180 * Math.PI;
+  this.sideAngle = ((180 - angle) / 2) / 180 * Math.PI;
   this.startBound = 1.5 * Math.PI;
   this.endBound = 0.5 * Math.PI;
 }
@@ -69,10 +69,10 @@ Vision.prototype = {
     var angleRelativeToThis = diffBetweenOrganisms.angle();
 
     var angleOfDirection = this.organism.getAngleOfDirection();
-    var maxAngleRad = this.maxAngle * Math.PI / 180;
+    var angleRad = this.angle * Math.PI / 180;
 
-    var startingAngle = angleOfDirection - maxAngleRad / 2;
-    var endingAngle = angleOfDirection + maxAngleRad / 2;
+    var startingAngle = angleOfDirection - angleRad / 2;
+    var endingAngle = angleOfDirection + angleRad / 2;
 
     var distanceBetweenOrganisms = this.organism.location.dist(organism.location);
 

@@ -105,8 +105,6 @@ Organism.prototype = {
 
   draw: function(ctx)
   {
-    var angle = this.getAngleOfDirection();
-
     ctx.lineWidth = 1;
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";

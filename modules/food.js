@@ -49,5 +49,11 @@ Food.prototype = {
     {
       this.energy = 0;
     }
+  },
+
+  consumedBy: function(organism)
+  {
+    this.energy -= organism.bite;
+    organism.energy += organism.bite;
   }
 }

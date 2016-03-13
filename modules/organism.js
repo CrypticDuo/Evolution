@@ -5,12 +5,13 @@ function Organism(generation, mass, energy, x, y, visionRange, visionAngle, minS
   this.energy = energy;
   this.maxSpeed = maxSpeed;
   this.minSpeed = minSpeed;
-  this.maxForce = 1 / (this.mass); // amount of force it can exert [2, ]
+  this.maxForce = this.mass * 10;
   this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
   this.age = 0;
   this.mature = false;
   this.alive = true;
+  this.bite = this.mass * Constant.Energy * Constant.BITE_RATIO;
 
   // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
   // we calculate acceleration using force
@@ -18,7 +19,7 @@ function Organism(generation, mass, energy, x, y, visionRange, visionAngle, minS
   // v = v + a ; limited to [0, maxSpeed]
   this.location = new Vector(x, y);
   this.velocity = new Vector(1, 1);
-  this.wandering = new Vector(.1, .1); // wandering velocity
+  this.wandering = new Vector(.01, .01); // wandering velocity
   this.acceleration = new Vector(0, 0);
 }
 
@@ -34,15 +35,45 @@ Organism.prototype = {
 
   move: function(land)
   {
-    this.friends = this.findFriends(land.population, this.vision.range)
+    this.nearByOrganisms = this.observe(land.population);
+    this.nearByFood = this.observe(land.food);
+
+    for (var i in this.nearByFood)
+    {
+      var food = this.nearByFood[i];
+      if (!food.depleted)
+      {
+        this.follow(food.location, food.radius/10);
+
+        if (this.location.dist(food.location) < food.radius)
+        {
+          food.consumedBy(this);
+        }
+      }
+    }
+
     this.wander();
 
     this.checkBoundaries(land);
   },
 
-  findFriends: function(population, range)
+  // follow until inside target's radius
+  follow: function(target, radius)
   {
-    var friends = [];
+    var dest = target.copy().sub(this.location);
+    var distance = dest.mag();
+
+    if (distance > radius)
+    {
+      dest.setMag(this.maxSpeed);
+    }
+
+    this.applyForce(dest);
+  },
+
+  observe: function(population)
+  {
+    var nearBy = [];
     for (var i in population)
     {
       if (population[i] != this)
@@ -54,11 +85,11 @@ Organism.prototype = {
 
         if (this.vision.isWithinVision(population[i]))
         {
-          friends.push(population[i]);
+          nearBy.push(population[i]);
         }
       }
     }
-    return friends;
+    return nearBy;
   },
 
   eat: function()
@@ -78,7 +109,7 @@ Organism.prototype = {
       this.wandering.rotate(Math.PI * 2 * Math.random());
     }
 
-    this.applyForce(this.wandering);
+    this.velocity.add(this.wandering);
   },
 
   // apply force opposite to the boundary
@@ -100,7 +131,7 @@ Organism.prototype = {
 
   applyForce: function(force)
   {
-    this.acceleration.add(force);
+    this.acceleration.add(force.setMag(force.mag()/this.mass));
   },
 
   draw: function(ctx)
@@ -127,17 +158,17 @@ Organism.prototype = {
 
   drawRelationship: function(ctx)
   {
-    if (this.friends)
+    if (this.nearByOrganisms)
     {
       ctx.lineWidth = 1;
       ctx.strokeStyle = "grey";
       ctx.beginPath();
 
-      for(var i in this.friends)
+      for(var i in this.nearByOrganisms)
       {
         ctx.stokeStyle = "#f1f1f1";
         ctx.moveTo(this.location.x, this.location.y);
-        ctx.lineTo(this.friends[i].location.x, this.friends[i].location.y);
+        ctx.lineTo(this.nearByOrganisms[i].location.x, this.nearByOrganisms[i].location.y);
       }
       ctx.stroke();
     }
@@ -152,9 +183,7 @@ Organism.prototype = {
 
     this.location.add(this.velocity);
 
-    this.acceleration.limit(this.maxForce);
-
-    this.energy -= (this.mass * this.age * this.velocity.mag());
+    this.energy -= (this.mass * this.age * this.velocity.mag() * 0.001);
     this.age += 0.005;
 
     if (this.energy < 0) {

@@ -1,80 +1,86 @@
 var Stats = {
-	show: function(land)
-	{
-		$("#avgGeneration value").html(this.getAverageGeneration(land));
-		$("#avgSpeed value").html(this.getAverageSpeed(land));
-		$("#avgMass value").html(this.getAverageMass(land));
-		$("#avgVisionRange value").html(this.getAverageVisionRange(land));
-		$("#avgVisionAngle value").html(this.getAverageVisionAngle(land));
-	},
+  show: function(population)
+  {
+    $("table").show();
+    $("#avgGeneration value").html(this.getAverageGeneration(population));
+    $("#avgSpeed value").html(this.getAverageSpeed(population));
+    $("#avgMass value").html(this.getAverageMass(population));
+    $("#avgVisionRange value").html(this.getAverageVisionRange(population));
+    $("#avgVisionAngle value").html(this.getAverageVisionAngle(population));
+  },
 
-	getAverageGeneration: function(land)
-	{
-	  var totalGeneration = 0;
-	  for (var i in land.population)
-	  {
-	    var organism = land.population[i];
+  hide: function()
+  {
+    $("table").hide();
+  },
 
-	    totalGeneration += organism.generation;
-	  }
+  getAverageGeneration: function(population)
+  {
+    var totalGeneration = 0;
+    for (var i in population)
+    {
+      var organism = population[i];
 
-	  return this.roundToDecimal(totalGeneration / land.population.length, 0);
-	},
+      totalGeneration += organism.generation;
+    }
 
-	getAverageSpeed: function(land)
-	{
-	  var totalSpeed = 0;
-	  for (var i in land.population)
-	  {
-	    var organism = land.population[i];
+    return this.roundToDecimal(totalGeneration / population.length, 0);
+  },
 
-	    totalSpeed += organism.velocity.mag();
-	  }
+  getAverageSpeed: function(population)
+  {
+    var totalSpeed = 0;
+    for (var i in population)
+    {
+      var organism = population[i];
 
-	  return this.roundToDecimal(totalSpeed / land.population.length, 3);
-	},
+      totalSpeed += organism.velocity.mag();
+    }
 
-	getAverageMass: function(land)
-	{
-	  var totalMass = 0;
-	  for (var i in land.population)
-	  {
-	    var organism = land.population[i];
+    return this.roundToDecimal(totalSpeed / population.length, 3);
+  },
 
-	    totalMass += organism.mass;
-	  }
+  getAverageMass: function(population)
+  {
+    var totalMass = 0;
+    for (var i in population)
+    {
+      var organism = population[i];
 
-	  return this.roundToDecimal(totalMass / land.population.length, 3);
-	},
+      totalMass += organism.mass;
+    }
 
-	getAverageVisionRange: function(land)
-	{
-	  var totalRange = 0;
-	  for (var i in land.population)
-	  {
-	    var organism = land.population[i];
+    return this.roundToDecimal(totalMass / population.length, 3);
+  },
 
-	    totalRange += organism.vision.range;
-	  }
+  getAverageVisionRange: function(population)
+  {
+    var totalRange = 0;
+    for (var i in population)
+    {
+      var organism = population[i];
 
-	  return this.roundToDecimal(totalRange / land.population.length, 2);
-	},
+      totalRange += organism.vision.range;
+    }
 
-	getAverageVisionAngle: function(land)
-	{
-	  var totalAngle = 0;
-	  for (var i in land.population)
-	  {
-	    var organism = land.population[i];
+    return this.roundToDecimal(totalRange / population.length, 2);
+  },
 
-	    totalAngle += organism.vision.angle;
-	  }
+  getAverageVisionAngle: function(population)
+  {
+    var totalAngle = 0;
+    for (var i in population)
+    {
+      var organism = population[i];
 
-	  return this.roundToDecimal(totalAngle / land.population.length, 2);
-	},
+      totalAngle += organism.vision.angle;
+    }
 
-	roundToDecimal: function(num, dec)
-	{
-		return Math.round(num * (Math.pow(10, dec))) / (Math.pow(10, dec));
-	}
+    return this.roundToDecimal(totalAngle / population.length, 2);
+  },
+
+  roundToDecimal: function(num, dec)
+  {
+    return Math.round(num * (Math.pow(10, dec))) / (Math.pow(10, dec));
+  }
 }

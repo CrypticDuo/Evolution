@@ -113,8 +113,11 @@ Organism.prototype = {
     ctx.stroke();
     ctx.fill();
 
-    this.drawVision(ctx);
-    this.drawRelationship(ctx);
+    if(debug.IsDebugMode())
+    {
+      this.drawVision(ctx);
+      this.drawRelationship(ctx);
+    }
   },
 
   drawVision: function(ctx)

@@ -1,15 +1,47 @@
 <html>
-    <head>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="modules/vector.js"></script>
-        <script src="modules/constant.js"></script>
-        <script src="modules/simulator.js"></script>
-        <script src="modules/food.js"></script>
-        <script src="modules/organism.js"></script>
-        <script src="modules/land.js"></script>
-        <script src="modules/vision.js"></script>
-    </head>
-    <body>
-        <canvas id="canvas"></canvas>
-    </body>
+  <head>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="modules/vector.js"></script>
+    <script src="modules/constant.js"></script>
+    <script src="modules/stats.js"></script>
+    <script src="modules/debug.js"></script>
+    <script src="modules/simulator.js"></script>
+    <script src="modules/food.js"></script>
+    <script src="modules/organism.js"></script>
+    <script src="modules/land.js"></script>
+    <script src="modules/vision.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <table>
+      <tr>
+        <th>Stats</th>
+      </tr>
+      <tr id="popCount">
+        <td><label>Population:</label></td>
+        <td><value></value></td>
+      </tr>
+      <tr id="avgGeneration">
+        <td><label>Average Generation:</label></td>
+        <td><value></value></td>
+      </tr>
+      <tr id="avgSpeed">
+        <td><label>Average Speed:</label></td>
+        <td><value></value></td>
+      </tr>
+      <tr id="avgMass">
+        <td><label>Average Mass:</label></td>
+        <td><value></value></td>
+      </tr>
+      <tr id="avgVisionRange">
+        <td><label>Average Vision Range:</label></td>
+        <td><value></value></td>
+      </tr>
+      <tr id="avgVisionAngle">
+        <td><label>Average Vision Angle:</label></td>
+        <td><value></value></td>
+      </tr>
+    </table>
+  </body>
 </html>

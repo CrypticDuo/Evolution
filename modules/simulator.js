@@ -16,14 +16,13 @@ $(function()
     land.food.push(createFood(land));
   }
 
-  $(window).resize(function()
-  {
-    var e = document.getElementById("canvas");
-    e.setAttribute("width", land.width);
-    e.setAttribute("height", land.height);
-  }).resize();
+  var e = document.getElementById("canvas");
+  e.setAttribute("width", $("body").width());
+  e.setAttribute("height", $("body").height());
 
   setInterval(function(){ step (ctx, land); }, interval);
+
+  debug.Start(land.population);
 });
 
 function step(ctx, land)
@@ -87,20 +86,7 @@ function createFood(land)
   // each food source is enough to feed maximum 20% of total organisms and minimum of 5%.
   var randomEnergy = Math.random() * (Constant.MAX_FOOD_ENERGY_RATIO - Constant.MIN_FOOD_ENERGY_RATIO) + Constant.MIN_FOOD_ENERGY_RATIO;
 
-  randomEnergy = Constant.POPULATION * randomEnergy * getAverageMass(land) * Constant.ENERGY;
+  randomEnergy = land.population.length * randomEnergy * Stats.getAverageMass(land.population) * Constant.ENERGY;
 
   return new Food(randomX, randomY, randomEnergy);
-}
-
-function getAverageMass(land)
-{
-  var totalMass = 0;
-  for (var i in land.population)
-  {
-    var organism = land.population[i];
-
-    totalMass += organism.mass;
-  }
-
-  return totalMass / Constant.POPULATION;
 }

@@ -1,17 +1,18 @@
-function Organism(generation, mass, energy, x, y, visionRange, visionAngle, minSpeed, maxSpeed, fertility){
+function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
+{
   this.ID = Organism.uid();
   this.generation = generation;
   this.mass = mass;
-  this.energy = energy;
-  this.maxSpeed = maxSpeed;
+  this.energy = mass * Constant.ENERGY;
   this.minSpeed = minSpeed;
+  this.maxSpeed = minSpeed * 2;
   this.maxForce = this.mass * 10;
   this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
   this.age = 0;
   this.mature = false;
   this.alive = true;
-  this.bite = this.mass * Constant.Energy * Constant.BITE_RATIO;
+  this.bite = this.mass * Constant.ENERGY * Constant.BITE_RATIO;
 
   // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
   // we calculate acceleration using force
@@ -36,39 +37,59 @@ Organism.prototype = {
   move: function(land)
   {
     this.nearByOrganisms = this.observe(land.population);
-    this.nearByFood = this.observe(land.food);
+    this.nearByFood = this.findVisibleFood(land.food);
 
-    for (var i in this.nearByFood)
+    if (this.nearByFood.length)
     {
-      var food = this.nearByFood[i];
-      if (!food.depleted)
+      for (var i in this.nearByFood)
       {
-        this.follow(food.location, food.radius/10);
-
-        if (this.location.dist(food.location) < food.radius)
+        var food = this.nearByFood[i];
+        if (!food.depleted)
         {
-          food.consumedBy(this);
+          this.follow(food.location, food.radius, food.mass * 10);
+
+          if (this.location.dist(food.location) < food.radius)
+          {
+            food.consumedBy(this);
+          }
         }
       }
     }
-
-    this.wander();
+    else
+    {
+      this.wander();
+    }
 
     this.checkBoundaries(land);
   },
 
+  findVisibleFood: function(foods)
+  {
+    var visibleFoods = [];
+    for (var i in foods)
+    {
+      var food = foods[i];
+
+      if (this.location.dist(food.location) < this.vision.getRange() + food.radius)
+      {
+        visibleFoods.push(food);
+      }
+    }
+
+    return visibleFoods;
+  },
+
   // follow until inside target's radius
-  follow: function(target, radius)
+  follow: function(target, radius, forceApplied)
   {
     var dest = target.copy().sub(this.location);
     var distance = dest.mag();
 
     if (distance > radius)
     {
-      dest.setMag(this.maxSpeed);
+      dest.setMag(forceApplied);
+      this.applyForce(dest);
     }
-
-    this.applyForce(dest);
   },
 
   observe: function(population)
@@ -109,7 +130,7 @@ Organism.prototype = {
       this.wandering.rotate(Math.PI * 2 * Math.random());
     }
 
-    this.velocity.add(this.wandering);
+    this.applyForce(this.wandering);
   },
 
   // apply force opposite to the boundary
@@ -140,15 +161,12 @@ Organism.prototype = {
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
     ctx.beginPath();
-    ctx.arc(this.location.x, this.location.y, this.mass * Constant.ENERGY * Constant.RADIUS_RATIO, 0, 2 * Math.PI, false);
+    ctx.arc(this.location.x, this.location.y, this.mass * 100000 * Constant.RADIUS_RATIO, 0, 2 * Math.PI, false);
     ctx.stroke();
     ctx.fill();
 
-    if(debug.IsDebugMode())
-    {
-      this.drawVision(ctx);
-      this.drawRelationship(ctx);
-    }
+    this.drawVision(ctx);
+    this.drawRelationship(ctx);
   },
 
   drawVision: function(ctx)
@@ -178,19 +196,22 @@ Organism.prototype = {
   {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
-    if(this.velocity.mag() < this.minSpeed) // TODO
-      this.velocity.setMag(this.minSpeed);
+    // if(this.velocity.mag() < this.minSpeed) // TODO
+    //   this.velocity.setMag(this.minSpeed);
 
     this.location.add(this.velocity);
 
     this.energy -= (this.mass * this.age * this.velocity.mag() * 0.001);
-    this.age += 0.005;
+    this.age += 0.001;
 
     if (this.energy < 0) {
       this.alive = false;
     }
 
     // reset acceleration, forces, etc
+    if(this.acceleration.mag() == 0){
+      this.velocity.mul(0);
+    }
     this.acceleration.mul(0);
   },
 

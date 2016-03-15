@@ -2,6 +2,7 @@ var Stats = {
   show: function(population)
   {
     $("table").show();
+    $("#popCount value").html(population.length);
     $("#avgGeneration value").html(this.getAverageGeneration(population));
     $("#avgSpeed value").html(this.getAverageSpeed(population));
     $("#avgMass value").html(this.getAverageMass(population));

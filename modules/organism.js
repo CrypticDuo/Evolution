@@ -105,8 +105,6 @@ Organism.prototype = {
 
   draw: function(ctx)
   {
-    var angle = this.getAngleOfDirection();
-
     ctx.lineWidth = 1;
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
@@ -115,8 +113,11 @@ Organism.prototype = {
     ctx.stroke();
     ctx.fill();
 
-    this.drawVision(ctx);
-    this.drawRelationship(ctx);
+    if(debug.IsDebugMode())
+    {
+      this.drawVision(ctx);
+      this.drawRelationship(ctx);
+    }
   },
 
   drawVision: function(ctx)

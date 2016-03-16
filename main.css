@@ -1,21 +1,31 @@
 table {
   font-size: 15px;
   font-family: sans-serif;
-  padding: 20px;
+  padding: 70px;
   background-color: rgba(204,204,204,0.3);
   position: fixed;
   top: 10px;
   right: 10px;
-  border-radius: 2px;
+  border-radius: 100%;
+  transition: all 1s ease-in-out;
+}
+
+table:hover {
+  padding: 100px;
+  font-size: 18px;
+  background-color: #C0C0C0;
+  transition: all 1s ease-in-out;
 }
 
 td value {
   display: block;
   width: 50px;
   padding: 5px;
+  font-weight: bold;
 }
 
 th {
-  text-align: left;
-  font-size: 18px;
+  text-align: center;
+  font: bold 24px 'Pacifico', Helvetica, sans-serif;
+  text-shadow: 3px 3px 0px rgba(0,0,0,0.1), 7px 7px 0px rgba(0,0,0,0.05);
 }

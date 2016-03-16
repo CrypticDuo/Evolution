@@ -4,7 +4,7 @@ var Constant = {
   MAX_MASS : 1,
   MIN_SPEED : 0.1,
   ENERGY : 100000, // per 1 mass
-  RADIUS_RATIO : 1 / 10000, // 1 px : 10000 Energy
+  RADIUS_RATIO : 1.5 / 10000, // 1.5 px : 10000 Energy
   FOOD_RATIO : 1 / 5, // 1 Food : 5 Population
   BITE_RATIO : 1 / 100,
   FOOD_RESPAWN_CHANCE : .005,

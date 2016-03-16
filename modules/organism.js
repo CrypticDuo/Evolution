@@ -165,12 +165,15 @@ Organism.prototype = {
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
     ctx.beginPath();
-    ctx.arc(this.location.x, this.location.y, this.mass * 100000 * Constant.RADIUS_RATIO, 0, 2 * Math.PI, false);
+    ctx.arc(this.location.x, this.location.y, this.mass * Constant.ENERGY * Constant.RADIUS_RATIO, 0, 2 * Math.PI, false);
     ctx.stroke();
     ctx.fill();
 
-    this.drawVision(ctx);
-    this.drawRelationship(ctx);
+    if(debug.IsDebugMode())
+    {
+      this.drawVision(ctx);
+      this.drawRelationship(ctx);
+    }
   },
 
   drawVision: function(ctx)
@@ -206,7 +209,7 @@ Organism.prototype = {
 
     this.location.add(this.velocity);
 
-    this.energy -= (this.mass * this.age * 0.001);
+    this.energy -= (this.mass * this.age * this.velocity.mag());
     this.age += 0.001;
 
     if (this.energy < 0) {

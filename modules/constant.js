@@ -1,5 +1,5 @@
 var Constant = {
-  POPULATION : 20,
+  POPULATION : 10,
   MIN_MASS : 0.01,
   MAX_MASS : 1,
   MIN_SPEED : 0.1,

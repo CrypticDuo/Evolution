@@ -46,7 +46,7 @@ Organism.prototype = {
         var food = this.nearByFood[i];
         if (!food.depleted)
         {
-          this.follow(food.location, food.radius, food.energy * 10);
+          this.follow(food, food.radius, food.energy/(Constant.ENERGY*2));
 
           if (this.location.dist(food.location) < food.radius)
           {
@@ -82,10 +82,15 @@ Organism.prototype = {
   // follow until inside target's radius
   follow: function(target, radius, forceApplied)
   {
-    var dest = target.copy().sub(this.location);
-    var distance = dest.mag();
+    var dest = target.location.copy().sub(this.location);
+    var d = dest.mag();
 
-    if (distance > radius)
+    if (d >= radius)
+    {
+      dest.setMag(this.maxSpeed);
+      this.applyForce(dest);
+    }
+    else if (d >= radius/2)
     {
       dest.setMag(forceApplied);
       this.applyForce(dest);
@@ -134,7 +139,6 @@ Organism.prototype = {
   },
 
   // apply force opposite to the boundary
-
   checkBoundaries: function(land)
   {
     if (this.location.x < -10)
@@ -152,7 +156,7 @@ Organism.prototype = {
 
   applyForce: function(force)
   {
-    this.acceleration.add(force.setMag(force.mag()/this.mass));
+    this.acceleration.add(force);
   },
 
   draw: function(ctx)
@@ -196,8 +200,9 @@ Organism.prototype = {
   {
     this.velocity.add(this.acceleration);
     this.velocity.limit(this.maxSpeed);
-    // if(this.velocity.mag() < this.minSpeed) // TODO
-    //   this.velocity.setMag(this.minSpeed);
+
+    if(this.velocity.mag() < this.minSpeed)
+      this.velocity.setMag(this.minSpeed);
 
     this.location.add(this.velocity);
 
@@ -208,10 +213,6 @@ Organism.prototype = {
       this.alive = false;
     }
 
-    // reset acceleration, forces, etc
-    if(this.acceleration.mag() == 0){
-      this.velocity.mul(0);
-    }
     this.acceleration.mul(0);
   },
 

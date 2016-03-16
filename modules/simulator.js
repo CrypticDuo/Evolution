@@ -70,7 +70,7 @@ function createOrganism(land)
 
     // TODO: create 4 types of organisms.
     var randomMass = Constant.MIN_MASS + (Math.random()*Math.random()) * Constant.MAX_MASS;
-    var randomMinSpeed =  (Math.random()*Math.random()*Math.random()*Math.random()) * Constant.MAX_SPEED;
+    var randomMinSpeed =  (Math.random()) + Constant.MIN_SPEED;
 
     // create Organism(generation, mass, energy, x, y, vision_angle, vision_range, minSpeed, fertility)
     return new Organism(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);

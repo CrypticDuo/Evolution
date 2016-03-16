@@ -41,6 +41,11 @@ Food.prototype = {
     // decrease radius gradually
     this.radius += (newRadius - this.radius) / 5;
 
+    if (this.radius < 10)
+    {
+      this.radius = 10;
+    }
+
     this.location.add(this.velocity);
 
     // kill the food if out of bounds

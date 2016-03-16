@@ -46,7 +46,7 @@ Organism.prototype = {
         var food = this.nearByFood[i];
         if (!food.depleted)
         {
-          this.follow(food.location, food.radius, food.mass * 10);
+          this.follow(food.location, food.radius, food.energy * 10);
 
           if (this.location.dist(food.location) < food.radius)
           {
@@ -201,7 +201,7 @@ Organism.prototype = {
 
     this.location.add(this.velocity);
 
-    this.energy -= (this.mass * this.age * this.velocity.mag() * 0.001);
+    this.energy -= (this.mass * this.age * 0.001);
     this.age += 0.001;
 
     if (this.energy < 0) {

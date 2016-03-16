@@ -41,9 +41,9 @@ Food.prototype = {
     // decrease radius gradually
     this.radius += (newRadius - this.radius) / 5;
 
-    if (this.radius < 15)
+    if (this.radius < 20)
     {
-      this.radius = 15;
+      this.radius = 20;
     }
 
     this.location.add(this.velocity);

@@ -4,6 +4,7 @@ var Stats = {
     $("table").show();
     $("#popCount value").html(population.length);
     $("#avgGeneration value").html(this.getAverageGeneration(population));
+    $("#avgEnergy value").html(this.getAverageEnergy(population));
     $("#avgSpeed value").html(this.getAverageSpeed(population));
     $("#avgMass value").html(this.getAverageMass(population));
     $("#avgVisionRange value").html(this.getAverageVisionRange(population));
@@ -13,6 +14,19 @@ var Stats = {
   hide: function()
   {
     $("table").hide();
+  },
+
+  getAverageEnergy: function(population)
+  {
+    var totalEnergy = 0;
+    for (var i in population)
+    {
+      var organism = population[i];
+
+      totalEnergy += organism.energy;
+    }
+
+    return this.roundToDecimal(totalEnergy / population.length, 0);
   },
 
   getAverageGeneration: function(population)

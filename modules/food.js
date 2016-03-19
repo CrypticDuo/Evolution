@@ -5,6 +5,7 @@ function Food(x, y, energy)
   this.velocity = new Vector(.5, .5);
   this.energy = energy;
   this.depleted = false;
+  this.mass = this.energy / Constant.ENERGY;
 
   // Make the food circle look bigger
   // Too small to have 1:1 size relationship with organism, 1:10 is reasonable

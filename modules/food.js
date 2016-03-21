@@ -5,6 +5,7 @@ function Food(x, y, energy)
   this.velocity = new Vector(.5, .5);
   this.energy = energy;
   this.depleted = false;
+  this.mass = this.energy / Constant.ENERGY;
 
   // Make the food circle look bigger
   // Too small to have 1:1 size relationship with organism, 1:10 is reasonable
@@ -41,6 +42,11 @@ Food.prototype = {
     // decrease radius gradually
     this.radius += (newRadius - this.radius) / 5;
 
+    if (this.radius < 20)
+    {
+      this.radius = 20;
+    }
+
     this.location.add(this.velocity);
 
     // kill the food if out of bounds
@@ -49,5 +55,11 @@ Food.prototype = {
     {
       this.energy = 0;
     }
+  },
+
+  consumedBy: function(organism)
+  {
+    this.energy -= organism.bite;
+    organism.energy += organism.bite;
   }
 }

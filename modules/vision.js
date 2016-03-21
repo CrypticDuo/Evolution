@@ -63,6 +63,11 @@ Vision.prototype = {
     ctx.stroke();
   },
 
+  getRange: function()
+  {
+    return this.range;
+  },
+
   isWithinVision: function(organism)
   {
     var diffBetweenOrganisms = organism.location.copy().sub(this.organism.location);

@@ -8,7 +8,7 @@ $(function()
 
   for (var i = 0; i < Constant.POPULATION; i++)
   {
-    land.population.push(factory.createOrganism(land));
+    land.population.push(OrganismFactory.createOrganism(land));
   }
 
   for (var i = 0; i < Constant.FOOD_RATIO * Constant.POPULATION; i++)

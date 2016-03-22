@@ -8,7 +8,7 @@ $(function()
 
   for (var i = 0; i < Constant.POPULATION; i++)
   {
-    land.population.push(createOrganism(land));
+    land.population.push(factory.createOrganism(land));
   }
 
   for (var i = 0; i < Constant.FOOD_RATIO * Constant.POPULATION; i++)
@@ -61,52 +61,6 @@ function step(ctx, land)
       }
     }
   }
-}
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function createOrganism(land)
-{
-    var organismCounter = getRandomInt(0,4);
-    var randomX = Math.random() * land.width;
-    var randomY = Math.random() * land.height;
-
-    // TODO: create 4 types of organisms.
-    var randomMass = Constant.MIN_MASS + (Math.random()*Math.random()) * Constant.MAX_MASS;
-    var randomMinSpeed =  (Math.random()) + Constant.MIN_SPEED;
-
-    // 
-    if(organismCounter%3 == 0) {
-      return heavyMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-    } else if (organismCounter%3 == 1) {
-      return speedMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-    } else if (organismCounter%3 == 2) {
-      return visionMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-    } else {
-      return sexMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-    }
-}
-
-function heavyMorphon (generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-{
-  return new Organism(generation, mass*4, x, y, visionRange, visionAngle, minSpeed/2, fertility);
-}
-
-function speedMorphon (generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-{
-  return new Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed*5, fertility);
-}
-
-function visionMorphon (generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-{
-  return new Organism(generation, mass, x, y, visionRange*1.5, visionAngle*1.5, minSpeed, fertility);
-}
-
-function sexMorphon (generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-{
-  return new Organism(generation, mass, x, y, visionRange*2, visionAngle*2, minSpeed, fertility*2);
 }
 
 function createFood(land)

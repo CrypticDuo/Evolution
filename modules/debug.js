@@ -78,35 +78,35 @@ Debug.prototype = {
     {
       this.paused = !this.paused;
 
-      if (this.paused)
+      if(!this.paused)
       {
-        this.pause();
-
-        var self = this;
-        $(document).bind("click", function(e)
-        {
-          $(".tooltip").remove();
-          for(var i = 0; i < self.land.population.length; i++)
-          {
-            var organism = self.land.population[i];
-            if (isWithinCircle(
-              e.pageX - 9,
-              e.pageY - 9,
-              organism.location.x,
-              organism.location.y,
-              organism.radius))
-            {
-              var tooltip = new Tooltip();
-              tooltip.show(organism);
-            }
-          }
-        });
-      }
-      else
-      {
+        $(".tooltip").remove();
         this.resume();
         $(document).unbind("click");
+        return;
       }
+
+      this.pause();
+
+      var self = this;
+      $(document).bind("click", function(e)
+      {
+        $(".tooltip").remove();
+        for(var i = 0; i < self.land.population.length; i++)
+        {
+          var organism = self.land.population[i];
+          if (isWithinCircle(
+            e.pageX - 9,
+            e.pageY - 9,
+            organism.location.x,
+            organism.location.y,
+            organism.radius))
+          {
+            var tooltip = new Tooltip();
+            tooltip.show(organism);
+          }
+        }
+      });
     }
   },
 

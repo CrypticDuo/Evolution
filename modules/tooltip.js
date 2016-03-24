@@ -1,55 +1,47 @@
-function Tooltip()
-{
-	this.div = document.createElement("div");
-}
+function Tooltip(){}
 
 Tooltip.prototype = {
-	show: function(organism)
-	{
-		this.render(organism);
+  show: function(organism)
+  {
+    div = document.createElement("div");
+    $(div).empty();
 
-	},
+    div.style.left = organism.location.x + organism.radius;
+    div.style.top = organism.location.y + organism.radius;
+    div.setAttribute('class', 'tooltip');
 
-	render: function(organism)
-	{
-		$(this.div).empty();
+    var table = document.createElement("table");
 
-		this.div.style.left = organism.location.x + organism.radius;
-		this.div.style.top = organism.location.y + organism.radius;
-		this.div.setAttribute('class', 'tooltip');
+    table.appendChild(this.createRow('organism', "# " + organism.ID));
+    table.appendChild(this.createRow('generation', organism.generation));
+    table.appendChild(
+      this.createRow(
+        'velocity',
+        Stats.roundToDecimal(organism.velocity.mag(), 3)));
+    table.appendChild(
+      this.createRow('energy',
+        Stats.roundToDecimal(organism.energy, 0)));
+    table.appendChild(
+      this.createRow('mass',
+        Stats.roundToDecimal(organism.mass, 3)));
 
-		var table = document.createElement("table");
+    div.appendChild(table);
+    document.body.appendChild(div);
+  },
 
-		table.appendChild(this.createRow('organism', "# " + organism.ID));
-		table.appendChild(this.createRow('generation', organism.generation));
-		table.appendChild(
-			this.createRow(
-				'velocity',
-				Stats.roundToDecimal(organism.velocity.mag(), 3)));
-		table.appendChild(
-			this.createRow('energy',
-				Stats.roundToDecimal(organism.energy, 0)));
-		table.appendChild(
-			this.createRow('mass',
-				Stats.roundToDecimal(organism.mass, 3)));
+  createRow: function(labelText, valueText)
+  {
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    var label = document.createElement("label");
+    var value = document.createElement("value");
 
-		this.div.appendChild(table);
-		document.body.appendChild(this.div);
-	},
+    label.innerHTML = labelText;
+    value.innerHTML = valueText;
 
-	createRow: function(labelText, valueText)
-	{
-		var tr = document.createElement("tr");
-		var td = document.createElement("td");
-		var label = document.createElement("label");
-		var value = document.createElement("value");
-
-		label.innerHTML = labelText;
-		value.innerHTML = valueText;
-
-		tr.appendChild(td);
-		td.appendChild(label);
-		td.appendChild(value);
-		return tr;
-	}
+    tr.appendChild(td);
+    td.appendChild(label);
+    td.appendChild(value);
+    return tr;
+  }
 }

@@ -1,4 +1,4 @@
-table {
+table.stats {
   font-size: 15px;
   font-family: sans-serif;
   padding: 20px;
@@ -10,13 +10,13 @@ table {
   z-index:1;
 }
 
-td value {
+.stats td value {
   display: block;
   width: 50px;
   padding: 5px;
 }
 
-th {
+.stats th {
   text-align: left;
   font-size: 18px;
 }
@@ -47,3 +47,25 @@ th {
   text-align:center;
 }
 
+.tooltip
+{
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  color: #fff;
+}
+
+.tooltip td
+{
+  font-family: sans-serif;
+  color: #fff;
+  padding: 2px;
+  font-size: 13px;
+}
+
+.tooltip td label {
+  display: inline-block;
+  width: 100px;
+  text-transform: uppercase;
+}

@@ -4,7 +4,7 @@ var KeyCode = {
 }
 var Debug = function()
 {
-  this.population = null;
+  this.land = null;
   this.debugMode = false;
   this.paused = false;
   this.statsInterval = null;
@@ -13,43 +13,39 @@ var Debug = function()
 
   $(document).bind("keyup", function(e)
   {
-    if(e.shiftKey && e.keyCode == KeyCode.DEBUG)
-    {
-      self.debugMode = !self.debugMode;
-
-      (self.debugMode) ? self.Start() : self.Stop();
-    }
-
-    if(e.shiftKey && e.keyCode == KeyCode.PAUSE)
-    {
-      self.paused = !self.paused;
-
-      (self.paused) ? self.Paused() : self.Resume();
-    }
+    self.handleDebugMode(e);
+    self.handlePaused(e);
   });
 };
 
+
+// TODO: move to util.js
+function isWithinCircle(pointX, pointY, circleX, circleY, radius)
+{
+  return (Math.pow((pointX - circleX), 2) + Math.pow((pointY - circleY), 2)) < Math.pow(radius,2);
+}
+
 // Might be necessary if we want to build more functionality to Debug class
 Debug.prototype = {
-  Init: function(population)
+  init: function(land)
   {
-    this.population = population;
+    this.land = land;
   },
 
-  Start: function()
+  start: function()
   {
     var self = this;
-    Stats.show(self.population);
-    this.statsInterval = setInterval(function(){ Stats.show(self.population); }, 1000);
+    Stats.show(self.land.population);
+    this.statsInterval = setInterval(function(){ Stats.show(self.land.population); }, 1000);
   },
 
-  Stop: function()
+  stop: function()
   {
     Stats.hide();
     clearInterval(this.statsInterval);
   },
 
-  Paused: function()
+  pause: function()
   {
     $('.overlay')
       .show()
@@ -57,19 +53,69 @@ Debug.prototype = {
 
   },
 
-  Resume: function()
+  resume: function()
   {
     $('.overlay')
       .stop(true, true)
       .hide();
   },
 
-  IsPaused: function()
+  handleDebugMode: function(e)
+  {
+    if (e.shiftKey && e.keyCode == KeyCode.DEBUG)
+    {
+      this.debugMode = !this.debugMode;
+
+      (this.debugMode) ? this.start() : this.stop();
+
+      this.land.draw();
+    }
+  },
+
+  handlePaused: function(e)
+  {
+    if (e.shiftKey && e.keyCode == KeyCode.PAUSE)
+    {
+      this.paused = !this.paused;
+
+      if (this.paused)
+      {
+        this.pause();
+
+        var self = this;
+        $(document).bind("click", function(e)
+        {
+          $(".tooltip").remove();
+          for(var i = 0; i < self.land.population.length; i++)
+          {
+            var organism = self.land.population[i];
+            if (isWithinCircle(
+              e.pageX - 9,
+              e.pageY - 9,
+              organism.location.x,
+              organism.location.y,
+              organism.radius))
+            {
+              var tooltip = new Tooltip();
+              tooltip.show(organism);
+            }
+          }
+        });
+      }
+      else
+      {
+        this.resume();
+        $(document).unbind("click");
+      }
+    }
+  },
+
+  isPaused: function()
   {
     return this.paused;
   },
 
-  IsDebugMode: function()
+  isDebugMode: function()
   {
     return this.debugMode;
   }

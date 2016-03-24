@@ -22,12 +22,18 @@ $(function()
 
   setInterval(function(){ step (ctx, land); }, interval);
 
-  debug.Start(land.population);
+  debug.Init(land.population);
 });
 
 function step(ctx, land)
 {
+  if(debug.IsPaused())
+  {
+    return;
+  }
+
   land.draw(ctx);
+
   // remove dead organisms
   for (var i = land.population.length-1; i >= 0; i--) {
     if (!land.population[i].alive) {

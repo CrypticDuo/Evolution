@@ -1,37 +1,86 @@
+var KeyCode = {
+  DEBUG : 68,
+  PAUSE : 80
+}
 var Debug = function()
 {
-  this.debugMode = true;
+  this.population = null;
+  this.debugMode = false;
   this.statsInterval = null;
+  this.paused = false;
 
   var self = this;
 
-  $("html").click(function()
+  $(document).bind("keyup", function(e)
   {
-    self.debugMode = !self.debugMode;
+    if(e.shiftKey && e.keyCode == KeyCode.DEBUG)
+    {
+      self.debugMode = !self.debugMode;
 
-    if(self.debugMode)
-    {
-      self.Start();
+      if(self.debugMode)
+      {
+        self.Start();
+      }
+      else
+      {
+        self.Stop();
+      }
     }
-    else
+
+    if(e.shiftKey && e.keyCode == KeyCode.PAUSE)
     {
-      self.Stop();
+      self.paused = !self.paused;
+
+      if(self.paused)
+      {
+        self.Paused();
+      }
+      else
+      {
+        self.Resume();
+      }
     }
   });
 };
 
 // Might be necessary if we want to build more functionality to Debug class
 Debug.prototype = {
-  Start: function(population)
+  Init: function(population)
   {
-    Stats.show(population);
-    this.statsInterval = setInterval(function(){ Stats.show(population); }, 1000);
+    this.population = population;
+  },
+
+  Start: function()
+  {
+    var self = this;
+    Stats.show(self.population);
+    this.statsInterval = setInterval(function(){ Stats.show(self.population); }, 1000);
   },
 
   Stop: function()
   {
     Stats.hide();
     clearInterval(this.statsInterval);
+  },
+
+  Paused: function()
+  {
+    $('.overlay')
+      .show()
+      .fadeOut(1200);
+
+  },
+
+  Resume: function()
+  {
+    $('.overlay')
+      .stop(true, true)
+      .hide();
+  },
+
+  IsPaused: function()
+  {
+    return this.paused;
   },
 
   IsDebugMode: function()

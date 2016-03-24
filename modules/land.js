@@ -4,6 +4,7 @@ function Land()
   this.height = $(window).height();
 
   this.population = [];
+  this.tracker = {};
   this.food = [];
 }
 

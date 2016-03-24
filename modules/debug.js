@@ -1,13 +1,13 @@
 var KeyCode = {
-  DEBUG : 68,
-  PAUSE : 80
+  DEBUG : 68, // 'D'
+  PAUSE : 80  // 'P'
 }
 var Debug = function()
 {
   this.population = null;
   this.debugMode = false;
-  this.statsInterval = null;
   this.paused = false;
+  this.statsInterval = null;
 
   var self = this;
 
@@ -17,28 +17,14 @@ var Debug = function()
     {
       self.debugMode = !self.debugMode;
 
-      if(self.debugMode)
-      {
-        self.Start();
-      }
-      else
-      {
-        self.Stop();
-      }
+      (self.debugMode) ? self.Start() : self.Stop();
     }
 
     if(e.shiftKey && e.keyCode == KeyCode.PAUSE)
     {
       self.paused = !self.paused;
 
-      if(self.paused)
-      {
-        self.Paused();
-      }
-      else
-      {
-        self.Resume();
-      }
+      (self.paused) ? self.Paused() : self.Resume();
     }
   });
 };

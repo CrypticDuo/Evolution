@@ -1,39 +1,58 @@
-var OrganismFactory = {
-	createOrganism: function(land)
-	{
-		organismCounter = Util.getRandomInt(0,4);
-		randomX = Math.random() * land.width;
-		randomY = Math.random() * land.height;
-		randomMass = Constant.MIN_MASS + (Math.random()*Math.random()) * Constant.MAX_MASS;
-		randomMinSpeed =  (Math.random()) + Constant.MIN_SPEED;
+function OrganismFactory()
+{
+  //TODO: attribute for factory, NONE?
+  this.active = true;
+}
 
-		switch(organismCounter) {
-			case Type.MASS:
-				return this.heavyMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-			case Type.SPEED:
-				return this.speedMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-			case Type.VISION:
-				return this.visionMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-			case Type.FERTILITY:
-				return this.sexMorphon(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
-		}
-	},
-	heavyMorphon: function(generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-	{
-		return new Organism(generation, mass*4, x, y, visionRange, visionAngle, minSpeed/2, fertility);
-	},
-	speedMorphon: function(generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-	{
-	  return new Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed*5, fertility);
-	},
-	visionMorphon: function(generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-	{
-	  return new Organism(generation, mass, x, y, visionRange*1.5, visionAngle*1.5, minSpeed, fertility);
-	},
-	sexMorphon: function(generation, mass, x, y, visionRange, visionAngle, minSpeed, fertility)
-	{
-	  return new Organism(generation, mass, x, y, visionRange*2, visionAngle*2, minSpeed, fertility*2);
+OrganismFactory.prototype = {
+  createOrganism: function(land, type)
+  {
+    randomX = Math.random() * land.width;
+	randomY = Math.random() * land.height;
+
+	switch(type) {
+	  case Type.MASS:
+	    return this.heavyMorphon(randomX, randomY);
+	  case Type.SPEED:
+	    return this.speedMorphon(randomX, randomY);
+	  case Type.VISION:
+		return this.visionMorphon(randomX, randomY);
+	  case Type.FERTILITY:
+		return this.sexMorphon(randomX, randomY);
 	}
+  },
+  heavyMorphon: function(x, y)
+  {
+	mass = Util.getRandomArbitrary(1.8, 2);
+	visionRange = Util.getRandomArbitrary(70, 90);
+	visionAngle = Util.getRandomArbitrary(50, 60);
+	speed = Util.getRandomArbitrary(0.3, 0.5);
+	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+  },
+  speedMorphon: function(x, y)
+  {
+	mass = Util.getRandomArbitrary(0.5, 0.6);
+	visionRange = Util.getRandomArbitrary(70, 90);
+	visionAngle = Util.getRandomArbitrary(70, 90);
+	speed = Util.getRandomArbitrary(2.5, 3);
+	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+  },
+  visionMorphon: function(x, y)
+  {
+	mass = Util.getRandomArbitrary(0.6, 0.8);
+	visionRange = Util.getRandomArbitrary(180, 200);
+	visionAngle = Util.getRandomArbitrary(180, 200);
+	speed = Util.getRandomArbitrary(0.6, 0.8);
+	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+  },
+  sexMorphon: function(x, y)
+  {
+	mass = Util.getRandomArbitrary(0.3, 0.5);
+	visionRange = Util.getRandomArbitrary(90, 100);
+	visionAngle = Util.getRandomArbitrary(90, 100);
+	speed = Util.getRandomArbitrary(0.5, 0.7);
+	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+  }
 }
 
 var Type = {

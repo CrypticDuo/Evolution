@@ -3,12 +3,14 @@ $(function()
   var canvas = $("#canvas")[0];
   var ctx = canvas.getContext('2d');
   var interval = 20;
+  var ogFactory = new OrganismFactory();
 
   var land = new Land();
 
   for (var i = 0; i < Constant.POPULATION; i++)
   {
-    land.population.push(OrganismFactory.createOrganism(land));
+    organismType = Util.getRandomInt(0,4);
+    land.population.push(ogFactory.createOrganism(land, organismType));
   }
 
   for (var i = 0; i < Constant.FOOD_RATIO * Constant.POPULATION; i++)

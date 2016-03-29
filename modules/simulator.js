@@ -3,7 +3,7 @@ $(function()
   var canvas = $("#canvas")[0];
   var ctx = canvas.getContext('2d');
   var interval = 20;
-  var ogFactory = new OrganismFactory();
+  var orgFactory = new OrganismFactory();
 
   var land = new Land();
 

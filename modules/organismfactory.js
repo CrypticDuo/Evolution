@@ -24,8 +24,8 @@ OrganismFactory.prototype = {
   heavyMorphon: function(x, y)
   {
 	mass = Util.getRandomArbitrary(1.8, 2);
-	visionRange = Util.getRandomArbitrary(70, 90);
-	visionAngle = Util.getRandomArbitrary(50, 60);
+	visionRange = Util.getRandomArbitrary(100, 110);
+	visionAngle = Util.getRandomArbitrary(100, 110);
 	speed = Util.getRandomArbitrary(0.3, 0.5);
 	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
   },
@@ -47,11 +47,11 @@ OrganismFactory.prototype = {
   },
   sexMorphon: function(x, y)
   {
-	mass = Util.getRandomArbitrary(0.3, 0.5);
+	mass = Util.getRandomArbitrary(1, 1.2);
 	visionRange = Util.getRandomArbitrary(90, 100);
 	visionAngle = Util.getRandomArbitrary(90, 100);
 	speed = Util.getRandomArbitrary(0.5, 0.7);
-	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+	return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 3);
   }
 }
 

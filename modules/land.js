@@ -38,12 +38,7 @@ Land.prototype = {
     {
       var organism = this.population[i];
 
-      if (!debug.isPaused())
-      {
-        organism.move(this);
-        organism.update(this);
-      }
-      organism.draw(this.ctx);
+      organism.draw(this);
     }
   },
 
@@ -55,11 +50,7 @@ Land.prototype = {
 
       if (!food.depleted)
       {
-        if (!debug.isPaused())
-        {
-          food.update(this);
-        }
-        food.draw(this.ctx);
+        food.draw(this);
       }
       else
       {

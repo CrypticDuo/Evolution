@@ -2,6 +2,8 @@ $(function()
 {
   var canvas = $("#canvas")[0];
   var ctx = canvas.getContext('2d');
+
+  // default interval
   var interval = 20;
 
   var land = new Land(ctx);
@@ -20,18 +22,18 @@ $(function()
   e.setAttribute("width", $("body").width());
   e.setAttribute("height", $("body").height());
 
-  setInterval(function(){ step (land); }, interval);
+  debug.init(land, interval);
 
-  debug.init(land);
+  setTimeout(function(){ step (land); }, debug.getInterval());
 });
 
 function step(land)
 {
+  setTimeout(function(){ step (land); }, debug.getInterval());
   if(debug.isPaused())
   {
     return;
   }
-
   land.draw();
 }
 

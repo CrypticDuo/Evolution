@@ -161,8 +161,16 @@ Organism.prototype = {
     this.acceleration.add(force);
   },
 
-  draw: function(ctx)
+  draw: function(land)
   {
+    ctx = land.ctx;
+
+    if (!debug.isPaused())
+    {
+      this.move(land);
+      this.update(land);
+    }
+
     ctx.lineWidth = 1;
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";

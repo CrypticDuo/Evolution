@@ -1,4 +1,4 @@
-function OrganismFactory(){}
+var OrganismFactory = function() {}
 
 OrganismFactory.prototype = {
   createOrganism: function(land, type)

@@ -10,7 +10,7 @@ $(function()
   for (var i = 0; i < Constant.POPULATION; i++)
   {
     organismType = Util.getRandomInt(0,4);
-    land.population.push(ogFactory.createOrganism(land, organismType));
+    land.population.push(orgFactory.createOrganism(land, organismType));
   }
 
   for (var i = 0; i < Constant.FOOD_RATIO * Constant.POPULATION; i++)

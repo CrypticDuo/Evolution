@@ -1,42 +1,70 @@
+var KeyCode = {
+  DEBUG : 68, // 'D'
+  PAUSE : 80  // 'P'
+}
 var Debug = function()
 {
-  this.debugMode = true;
+  this.land = null;
+  this.debugMode = false;
   this.statsInterval = null;
+  this.control = new Control();
 
   var self = this;
 
-  $("html").click(function()
+  $(document).bind("keyup", function(e)
   {
-    self.debugMode = !self.debugMode;
-
-    if(self.debugMode)
-    {
-      self.Start();
-    }
-    else
-    {
-      self.Stop();
-    }
+    self.handleDebugMode(e);
   });
 };
 
 // Might be necessary if we want to build more functionality to Debug class
 Debug.prototype = {
-  Start: function(population)
+  init: function(land, interval)
   {
-    Stats.show(population);
-    this.statsInterval = setInterval(function(){ Stats.show(population); }, 1000);
+    this.control.init(land, interval);
+    this.land = land;
   },
 
-  Stop: function()
+  start: function()
+  {
+    var self = this;
+    Stats.show(self.land.population);
+    this.control.show();
+    this.statsInterval = setInterval(function(){ Stats.show(self.land.population); }, 1000);
+  },
+
+  stop: function()
   {
     Stats.hide();
+    this.control.hide();
     clearInterval(this.statsInterval);
   },
 
-  IsDebugMode: function()
+  handleDebugMode: function(e)
+  {
+    if (e.shiftKey && e.keyCode == KeyCode.DEBUG)
+    {
+      this.debugMode = !this.debugMode;
+
+      (this.debugMode) ? this.start() : this.stop();
+
+      this.land.draw();
+    }
+  },
+
+  isPaused: function()
+  {
+    return this.control.paused;
+  },
+
+  isDebugMode: function()
   {
     return this.debugMode;
+  },
+
+  getInterval: function()
+  {
+    return this.control.interval;
   }
 }
 

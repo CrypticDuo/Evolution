@@ -94,6 +94,7 @@ var Stats = {
     return this.roundToDecimal(totalAngle / population.length, 2);
   },
 
+  // TODO: move to util.js
   roundToDecimal: function(num, dec)
   {
     return Math.round(num * (Math.pow(10, dec))) / (Math.pow(10, dec));

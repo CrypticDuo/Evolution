@@ -14,7 +14,7 @@ OrganismFactory.prototype = {
       case Type.MASS:
     return this.heavyMorphon(randomX, randomY);
       case Type.SPEED:
-        return this.speedMorphon(randomX, randomY);
+    return this.speedMorphon(randomX, randomY);
       case Type.VISION:
     return this.visionMorphon(randomX, randomY);
       case Type.FERTILITY:

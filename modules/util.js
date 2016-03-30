@@ -3,6 +3,6 @@ var Util = {
     return Math.floor(Math.random() * (max - min)) + min;
   },
   getRandomArbitrary: function(min, max) {
-  	return Math.random() * (max - min) + min;
+    return Math.random() * (max - min) + min;
   }
 }

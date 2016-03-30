@@ -1,8 +1,4 @@
-function OrganismFactory()
-{
-  //TODO: attribute for factory, NONE?
-  this.active = true;
-}
+function OrganismFactory(){}
 
 OrganismFactory.prototype = {
   createOrganism: function(land, type)

@@ -15,8 +15,7 @@ Tooltip.prototype = {
     table.appendChild(this.createRow('organism', "# " + organism.ID));
     table.appendChild(this.createRow('generation', organism.generation));
     table.appendChild(
-      this.createRow(
-        'velocity',
+      this.createRow('velocity',
         Stats.roundToDecimal(organism.velocity.mag(), 3)));
     table.appendChild(
       this.createRow('energy',

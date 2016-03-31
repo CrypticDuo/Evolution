@@ -143,10 +143,10 @@ Control.prototype = {
     {
       var organism = self.land.population[i];
       if (isWithinCircle(e.pageX - 9,
-                          e.pageY - 9,
-                          organism.location.x,
-                          organism.location.y,
-                          organism.radius))
+                         e.pageY - 9,
+                         organism.location.x,
+                         organism.location.y,
+                         organism.radius))
       {
         var tooltip = new Tooltip();
         tooltip.show(organism);

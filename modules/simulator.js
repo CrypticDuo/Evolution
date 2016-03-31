@@ -24,12 +24,12 @@ $(function()
 
   debug.init(land, interval);
 
-  setTimeout(function(){ step (land); }, debug.getInterval());
+  step(land);
 });
 
 function step(land)
 {
-  setTimeout(function(){ step (land); }, debug.getInterval());
+  setTimeout(function(){ step(land); }, debug.getInterval());
   if(debug.isPaused())
   {
     return;

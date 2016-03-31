@@ -1,6 +1,5 @@
 var Control = function() {
     this.paused = false;
-
     this.defaultInterval = 1;
     this.land = null;
 
@@ -57,7 +56,7 @@ Control.prototype = {
     this.updateSpeed();
   },
 
-  show: function(population)
+  show: function()
   {
     $('.control').show();
   },
@@ -143,12 +142,11 @@ Control.prototype = {
     for(var i = 0; i < self.land.population.length; i++)
     {
       var organism = self.land.population[i];
-      if (isWithinCircle(
-        e.pageX - 9,
-        e.pageY - 9,
-        organism.location.x,
-        organism.location.y,
-        organism.radius))
+      if (isWithinCircle(e.pageX - 9,
+                          e.pageY - 9,
+                          organism.location.x,
+                          organism.location.y,
+                          organism.radius))
       {
         var tooltip = new Tooltip();
         tooltip.show(organism);

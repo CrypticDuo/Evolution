@@ -4,6 +4,7 @@ var Control = function() {
     this.defaultInterval = 1;
     this.land = null;
 
+    var self = this;
     var tooltipHandler = function(e){ self.tooltipHandler(self, e); }
 
     this.listenOnPlay(tooltipHandler);

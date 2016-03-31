@@ -1,6 +1,5 @@
 var KeyCode = {
-  DEBUG : 68, // 'D'
-  PAUSE : 80  // 'P'
+  DEBUG : 68 // 'D'
 }
 var Debug = function()
 {

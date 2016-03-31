@@ -6,51 +6,10 @@ var Control = function() {
 
     var tooltipHandler = function(e){ self.tooltipHandler(self, e); }
 
-    var self = this;
-    $(document).on('click', '.pause', function(e)
-    {
-      if(self.paused)
-      {
-        return;
-      }
-      
-      self.pause();
-      $(document).bind('click', tooltipHandler);
-    });
-
-    $(document).on('click', '.play', function(e)
-    {
-      if(!self.paused)
-      {
-        self.interval = self.defaultInterval;
-        self.updateSpeed();
-        return;
-      }
-
-      self.resume();
-      $('.tooltip').remove();
-      $(document).unbind('click', tooltipHandler);
-    });
-
-    $(document).on('click', '.backward', function(e)
-    {
-      if(self.paused)
-      {
-        return;
-      }
-
-      self.backward();
-    });
-
-    $(document).on('click', '.forward', function(e)
-    {
-      if(self.paused)
-      {
-        return;
-      }
-
-      self.forward();
-    });
+    this.listenOnPlay(tooltipHandler);
+    this.listenOnPause(tooltipHandler);
+    this.listenOnForward();
+    this.listenOnBackward();
 }
 
 // TODO: move to util.js
@@ -110,6 +69,71 @@ Control.prototype = {
   updateSpeed: function()
   {
     $('.speed').html(this.defaultInterval / this.interval + "x");
+  },
+
+  listenOnPlay: function(tooltipHandler)
+  {
+    var self = this;
+
+    $(document).on('click', '.play', function(e)
+    {
+      if(!self.paused)
+      {
+        self.interval = self.defaultInterval;
+        self.updateSpeed();
+        return;
+      }
+
+      self.resume();
+      $('.tooltip').remove();
+      $(document).unbind('click', tooltipHandler);
+    });
+  },
+
+  listenOnPause: function(tooltipHandler)
+  {
+    var self = this;
+
+    $(document).on('click', '.pause', function(e)
+    {
+      if(self.paused)
+      {
+        return;
+      }
+
+      self.pause();
+      $(document).bind('click', tooltipHandler);
+    });
+  },
+
+  listenOnForward: function()
+  {
+    var self = this;
+
+    $(document).on('click', '.forward', function(e)
+    {
+      if(self.paused)
+      {
+        return;
+      }
+
+      self.forward();
+    });
+  },
+
+  listenOnBackward: function()
+  {
+    var self = this;
+
+    $(document).on('click', '.backward', function(e)
+    {
+      if(self.paused)
+      {
+        return;
+      }
+
+      self.backward();
+    });
   },
 
   tooltipHandler: function(self, e)

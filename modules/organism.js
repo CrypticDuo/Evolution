@@ -9,11 +9,13 @@ function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, fe
   this.maxForce = this.mass * 10;
   this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
+
   this.age = 0;
   this.mature = false;
   this.alive = true;
-  this.bite = this.mass * Constant.ENERGY * Constant.BITE_RATIO;
 
+  this.bite = this.mass * Constant.ENERGY * Constant.BITE_RATIO;
+  this.radius = this.mass * Constant.ENERGY * Constant.RADIUS_RATIO;
   // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
   // we calculate acceleration using force
   // a = F/m
@@ -159,17 +161,25 @@ Organism.prototype = {
     this.acceleration.add(force);
   },
 
-  draw: function(ctx)
+  draw: function(land)
   {
+    ctx = land.ctx;
+
+    if (!debug.isPaused())
+    {
+      this.move(land);
+      this.update(land);
+    }
+
     ctx.lineWidth = 1;
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
     ctx.beginPath();
-    ctx.arc(this.location.x, this.location.y, this.mass * Constant.ENERGY * Constant.RADIUS_RATIO, 0, 2 * Math.PI, false);
+    ctx.arc(this.location.x, this.location.y, this.radius, 0, 2 * Math.PI, false);
     ctx.stroke();
     ctx.fill();
 
-    if(debug.IsDebugMode())
+    if(debug.isDebugMode())
     {
       this.drawVision(ctx);
       this.drawRelationship(ctx);

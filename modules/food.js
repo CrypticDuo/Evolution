@@ -18,8 +18,15 @@ function Food(x, y, energy)
 }
 
 Food.prototype = {
-  draw: function(ctx)
+  draw: function(land)
   {
+    ctx = land.ctx;
+
+    if (!debug.isPaused())
+    {
+      this.update(land);
+    }
+
     ctx.beginPath();
     ctx.globalAlpha = 0.5;
     ctx.fillStyle = "#eee";

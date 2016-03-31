@@ -1,4 +1,16 @@
-table {
+html {
+  font-family: sans-serif;
+}
+
+.pause.on {
+  color: #EF4836;
+}
+
+.on {
+  color: #2ECC71;
+}
+
+table.stats {
   font-size: 15px;
   font-family: sans-serif;
   padding: 20px;
@@ -7,15 +19,77 @@ table {
   top: 10px;
   right: 10px;
   border-radius: 2px;
+  z-index:1;
 }
 
-td value {
+.stats td value {
   display: block;
   width: 50px;
   padding: 5px;
 }
 
-th {
+.stats th {
   text-align: left;
   font-size: 18px;
+}
+
+.tooltip
+{
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  color: #fff;
+}
+
+.tooltip td
+{
+  font-family: sans-serif;
+  color: #fff;
+  padding: 2px;
+  font-size: 13px;
+}
+
+.tooltip td label {
+  display: inline-block;
+  width: 100px;
+  text-transform: uppercase;
+}
+
+.control {
+  display: inline-block;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px 15px;
+  margin: 0;
+  border: 1px solid #333;
+  list-style: none;
+  background-color: #eee;
+  cursor: default;
+}
+
+.control li {
+  display: inline-block;
+  padding:3px 5px;
+}
+
+.control li i {
+  cursor: pointer;
+}
+
+.control li .speed {
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 13px;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

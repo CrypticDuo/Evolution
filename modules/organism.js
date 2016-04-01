@@ -16,10 +16,7 @@ function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, fe
 
   this.bite = this.mass * Constant.ENERGY * Constant.BITE_RATIO;
   this.radius = this.mass * Constant.ENERGY * Constant.RADIUS_RATIO;
-  // F (force --> how nutritous the food is) = G * m1 * m2 / r^2
-  // we calculate acceleration using force
-  // a = F/m
-  // v = v + a ; limited to [0, maxSpeed]
+
   this.location = new Vector(x, y);
   this.velocity = new Vector(1, 1);
   this.wandering = new Vector(.01, .01); // wandering velocity

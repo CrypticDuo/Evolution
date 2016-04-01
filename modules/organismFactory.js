@@ -14,40 +14,40 @@ OrganismFactory.prototype = {
       case Type.VISION:
         return this.visionMorphon(randomX, randomY);
       case Type.FERTILITY:
-        return this.sexMorphon(randomX, randomY);
+        return this.fertilityMorphon(randomX, randomY);
     }
   },
   heavyMorphon: function(x, y)
   {
-    mass = Util.getRandomArbitrary(1.8, 2);
-    visionRange = Util.getRandomArbitrary(100, 110);
-    visionAngle = Util.getRandomArbitrary(100, 110);
-    speed = Util.getRandomArbitrary(0.3, 0.5);
-    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+    mass = Util.getRandomArbitrary(0.6, 0.7);
+    visionRange = Util.getRandomArbitrary(120, 130);
+    visionAngle = Util.getRandomArbitrary(110, 130);
+    speed = Util.getRandomArbitrary(0.7, 1);
+    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 2);
   },
   speedMorphon: function(x, y)
   {
-    mass = Util.getRandomArbitrary(0.5, 0.6);
-    visionRange = Util.getRandomArbitrary(70, 90);
-    visionAngle = Util.getRandomArbitrary(70, 90);
-    speed = Util.getRandomArbitrary(2.5, 3);
-    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+    mass = Util.getRandomArbitrary(0.15, 0.25);
+    visionRange = Util.getRandomArbitrary(100, 110);
+    visionAngle = Util.getRandomArbitrary(90, 100);
+    speed = Util.getRandomArbitrary(1.5, 2);
+    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 2);
   },
   visionMorphon: function(x, y)
   {
-    mass = Util.getRandomArbitrary(0.6, 0.8);
-    visionRange = Util.getRandomArbitrary(180, 200);
-    visionAngle = Util.getRandomArbitrary(180, 200);
+    mass = Util.getRandomArbitrary(0.1, 0.2);
+    visionRange = Util.getRandomArbitrary(160, 180);
+    visionAngle = Util.getRandomArbitrary(180, 230);
     speed = Util.getRandomArbitrary(0.6, 0.8);
-    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
+    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 2);
   },
-  sexMorphon: function(x, y)
+  fertilityMorphon: function(x, y)
   {
-    mass = Util.getRandomArbitrary(1, 1.2);
-    visionRange = Util.getRandomArbitrary(90, 100);
-    visionAngle = Util.getRandomArbitrary(90, 100);
+    mass = Util.getRandomArbitrary(0.1, 0.3);
+    visionRange = Util.getRandomArbitrary(100, 120);
+    visionAngle = Util.getRandomArbitrary(130, 160);
     speed = Util.getRandomArbitrary(0.5, 0.7);
-    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 3);
+    return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 1);
   }
 }
 

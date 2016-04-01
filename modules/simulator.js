@@ -5,12 +5,14 @@ $(function()
 
   // default interval
   var interval = 20;
+  var orgFactory = new OrganismFactory();
 
   var land = new Land(ctx);
 
   for (var i = 0; i < Constant.POPULATION; i++)
   {
-    land.population.push(createOrganism(land));
+    organismType = Util.getRandomInt(0,4);
+    land.population.push(orgFactory.createOrganism(land, organismType));
   }
 
   for (var i = 0; i < Constant.FOOD_RATIO * Constant.POPULATION; i++)
@@ -35,19 +37,6 @@ function step(land)
     return;
   }
   land.draw();
-}
-
-function createOrganism(land)
-{
-    var randomX = Math.random() * land.width;
-    var randomY = Math.random() * land.height;
-
-    // TODO: create 4 types of organisms.
-    var randomMass = Constant.MIN_MASS + (Math.random()*Math.random()) * Constant.MAX_MASS;
-    var randomMinSpeed =  (Math.random()) + Constant.MIN_SPEED;
-
-    // create Organism(generation, mass, energy, x, y, vision_angle, vision_range, minSpeed, fertility)
-    return new Organism(1, randomMass, randomX, randomY, 100, 100, randomMinSpeed, 1);
 }
 
 function createFood(land)

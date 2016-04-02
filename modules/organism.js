@@ -4,11 +4,13 @@ function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, fe
   this.generation = generation;
   this.mass = (mass < Constant.MAX_MASS) ? mass : Constant.MAX_MASS;
   this.energy = mass * Constant.ENERGY;
-  this.minSpeed = minSpeed;
+  this.minSpeed = (minSpeed < Constant.MAX_MIN_SPEED) ? minSpeed : Constant.MAX_MIN_SPEED;
   this.maxSpeed = minSpeed * 2;
   this.maxForce = this.mass * 10;
-  this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
+
+  visionAngle = (visionAngle < Constant.MAX_VISION_ANGLE) ? visionAngle : Constant.MAX_VISION_ANGLE;
+  this.vision = new Vision(this, visionRange, visionAngle);
 
   this.age = 0;
   this.mature = false;

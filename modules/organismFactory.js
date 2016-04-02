@@ -30,7 +30,7 @@ OrganismFactory.prototype = {
     mass = Util.getRandomArbitrary(0.15, 0.25);
     visionRange = Util.getRandomArbitrary(100, 110);
     visionAngle = Util.getRandomArbitrary(90, 100);
-    speed = Util.getRandomArbitrary(1.5, 2);
+    speed = Util.getRandomArbitrary(1.5, Constant.MAX_MIN_SPEED);
     return new Organism(1, mass, x, y, visionRange, visionAngle, speed, 2);
   },
   visionMorphon: function(x, y)

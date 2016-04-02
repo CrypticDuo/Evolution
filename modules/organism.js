@@ -2,13 +2,15 @@ function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, fe
 {
   this.ID = Organism.uid();
   this.generation = generation;
-  this.mass = mass;
+  this.mass = (mass < Constant.MAX_MASS) ? mass : Constant.MAX_MASS;
   this.energy = mass * Constant.ENERGY;
-  this.minSpeed = minSpeed;
+  this.minSpeed = (minSpeed < Constant.MAX_MIN_SPEED) ? minSpeed : Constant.MAX_MIN_SPEED;
   this.maxSpeed = minSpeed * 2;
   this.maxForce = this.mass * 10;
-  this.vision = new Vision(this, visionRange, visionAngle);
   this.fertility = fertility;
+
+  visionAngle = (visionAngle < Constant.MAX_VISION_ANGLE) ? visionAngle : Constant.MAX_VISION_ANGLE;
+  this.vision = new Vision(this, visionRange, visionAngle);
 
   this.age = 0;
   this.mature = false;
@@ -21,6 +23,11 @@ function Organism(generation, mass, x, y, visionRange, visionAngle, minSpeed, fe
   this.velocity = new Vector(1, 1);
   this.wandering = new Vector(.01, .01); // wandering velocity
   this.acceleration = new Vector(0, 0);
+
+  var red = Math.floor((this.minSpeed / Constant.MAX_MIN_SPEED) * 255);
+  var green = Math.floor((this.mass / Constant.MAX_MASS) * 255);
+  var blue = Math.floor((visionAngle / Constant.MAX_VISION_ANGLE) * 255);
+  this.color = Util.rgbToString(red, green, blue);
 }
 
 (function(){
@@ -169,8 +176,8 @@ Organism.prototype = {
     }
 
     ctx.lineWidth = 1;
-    ctx.fillStyle = "black";
-    ctx.strokeStyle = "black";
+    ctx.fillStyle = this.color;
+    ctx.strokeStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.location.x, this.location.y, this.radius, 0, 2 * Math.PI, false);
     ctx.stroke();

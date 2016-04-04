@@ -9,7 +9,7 @@ function Food(x, y, energy)
 
   // Make the food circle look bigger
   // Too small to have 1:1 size relationship with organism, 1:10 is reasonable
-  this.RADIUS_RATIO = Constant.RADIUS_RATIO * 10;
+  this.RADIUS_RATIO = Constant.RADIUS_RATIO * 30;
 
   this.radius = this.energy * this.RADIUS_RATIO;
 

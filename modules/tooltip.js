@@ -14,9 +14,9 @@ Tooltip.prototype = {
 
     table.appendChild(this.createRow('organism', "# " + organism.ID));
     table.appendChild(this.createRow('generation', organism.generation));
-    table.appendChild(this.createRow('velocity', Stats.roundToDecimal(organism.velocity.mag(), 3)));
-    table.appendChild(this.createRow('energy', Stats.roundToDecimal(organism.energy, 0)));
-    table.appendChild(this.createRow('mass', Stats.roundToDecimal(organism.mass, 3)));
+    table.appendChild(this.createRow('velocity', Util.roundToDecimal(organism.velocity.mag(), 3)));
+    table.appendChild(this.createRow('energy', Util.roundToDecimal(organism.energy, 0)));
+    table.appendChild(this.createRow('mass', Util.roundToDecimal(organism.mass, 3)));
 
     div.appendChild(table);
     document.body.appendChild(div);

@@ -12,12 +12,6 @@ var Control = function() {
     this.listenOnBackward();
 }
 
-// TODO: move to util.js
-function isWithinCircle(pointX, pointY, circleX, circleY, radius)
-{
-  return (Math.pow((pointX - circleX), 2) + Math.pow((pointY - circleY), 2)) < Math.pow(radius,2);
-}
-
 Control.prototype = {
   init: function(land, interval)
   {
@@ -142,7 +136,7 @@ Control.prototype = {
     for(var i = 0; i < self.land.population.length; i++)
     {
       var organism = self.land.population[i];
-      if (isWithinCircle(e.pageX - 9,
+      if (Util.isWithinCircle(e.pageX - 9,
                          e.pageY - 9,
                          organism.location.x,
                          organism.location.y,

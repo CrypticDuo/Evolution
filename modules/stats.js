@@ -26,7 +26,7 @@ var Stats = {
       totalEnergy += organism.energy;
     }
 
-    return this.roundToDecimal(totalEnergy / population.length, 0);
+    return Util.roundToDecimal(totalEnergy / population.length, 0);
   },
 
   getAverageGeneration: function(population)
@@ -39,7 +39,7 @@ var Stats = {
       totalGeneration += organism.generation;
     }
 
-    return this.roundToDecimal(totalGeneration / population.length, 0);
+    return Util.roundToDecimal(totalGeneration / population.length, 0);
   },
 
   getAverageSpeed: function(population)
@@ -52,7 +52,7 @@ var Stats = {
       totalSpeed += organism.velocity.mag();
     }
 
-    return this.roundToDecimal(totalSpeed / population.length, 3);
+    return Util.roundToDecimal(totalSpeed / population.length, 3);
   },
 
   getAverageMass: function(population)
@@ -65,7 +65,7 @@ var Stats = {
       totalMass += organism.mass;
     }
 
-    return this.roundToDecimal(totalMass / population.length, 3);
+    return Util.roundToDecimal(totalMass / population.length, 3);
   },
 
   getAverageVisionRange: function(population)
@@ -78,7 +78,7 @@ var Stats = {
       totalRange += organism.vision.range;
     }
 
-    return this.roundToDecimal(totalRange / population.length, 2);
+    return Util.roundToDecimal(totalRange / population.length, 2);
   },
 
   getAverageVisionAngle: function(population)
@@ -91,12 +91,6 @@ var Stats = {
       totalAngle += organism.vision.angle;
     }
 
-    return this.roundToDecimal(totalAngle / population.length, 2);
-  },
-
-  // TODO: move to util.js
-  roundToDecimal: function(num, dec)
-  {
-    return Math.round(num * (Math.pow(10, dec))) / (Math.pow(10, dec));
+    return Util.roundToDecimal(totalAngle / population.length, 2);
   }
 }

@@ -52,8 +52,8 @@ Organism.prototype = {
         var food = this.nearByFood[i];
         if (!food.depleted)
         {
-          this.follow(food, food.radius, food.mass/2);
-
+           // follow to the core of the food
+          this.follow(food, 0, food.mass * this.velocity.mag());
           if (this.location.dist(food.location) < food.radius)
           {
             food.consumedBy(this);
@@ -92,11 +92,6 @@ Organism.prototype = {
     var d = dest.mag();
 
     if (d >= radius)
-    {
-      dest.setMag(this.maxSpeed);
-      this.applyForce(dest);
-    }
-    else if (d >= radius/2)
     {
       dest.setMag(forceApplied);
       this.applyForce(dest);
